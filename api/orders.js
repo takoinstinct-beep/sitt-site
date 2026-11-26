@@ -8,8 +8,5 @@ module.exports = async (req, res) => {
   try {
     const out = await createOrder(typeof req.body === 'string' ? JSON.parse(req.body) : req.body);
     res.status(out.status).json(out.json);
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: 'server_error' });
-  }
+  } catch (e) { console.error(e); res.status(500).json({ error: 'server_error' }); }
 };
