@@ -45,25 +45,26 @@
     err.classList.remove('on');
     var items=cart.map(function(i){return {id:i.id,name:CAT[i.id][0],color:i.color,size:i.size,qty:i.qty,unitPrice:CAT[i.id][1]}});
     var subtotal=items.reduce(function(s,i){return s+i.qty*i.unitPrice},0);
-    var order={orderNo:newNo(),items:items,subtotal:subtotal,currency:'EGP',
+    var order={clientRef:newNo(),orderNo:'',items:items,subtotal:subtotal,currency:'EGP',
       customer:{email:email,name:fname+' '+lname,phone:phone},
       shipping:{governorate:gov,area:area,address:addr,floor:val('floor'),landmark:val('mark')},
       payment:{method:'cod',status:'pending'},status:'awaiting_payment',createdAt:new Date().toISOString()};
     var btn=form.querySelector('.co-submit');btn.disabled=true;btn.firstChild.textContent='جاري حفظ الطلب... ';
-    function done(saved){
+    function done(saved,srvNo){
+      if(srvNo)order.orderNo=srvNo;var shown=order.orderNo||'قيد التأكيد';
       localStorage.setItem('sitt_cart','[]');
-      var hist=rd('sitt_orders',[]);hist.unshift({orderNo:order.orderNo,total:subtotal,at:order.createdAt,saved:saved});localStorage.setItem('sitt_orders',JSON.stringify(hist.slice(0,20)));
+      var hist=rd('sitt_orders',[]);hist.unshift({orderNo:shown,total:subtotal,at:order.createdAt,saved:saved});localStorage.setItem('sitt_orders',JSON.stringify(hist.slice(0,20)));
       var rows=items.map(function(i){return '<div class="sum-row"><span>'+i.name+' / '+i.color+' / '+i.size+' × '+ar(i.qty)+'</span><span>'+money(i.qty*i.unitPrice)+'</span></div>'}).join('');
-      document.getElementById('checkout-form-wrap').innerHTML='<div class="co-success"><span class="eyebrow-latin">ORDER '+order.orderNo+'</span><h2 class="display">طلبك وصلنا.</h2>'+
-        '<p>رقم طلبك <strong dir="ltr">'+order.orderNo+'</strong>. '+(saved?'اتسجل عندنا':'اتحفظ على جهازك وهيتبعت لينا أول ما الاتصال يرجع')+'، وفريق ست هيتواصل معاكي على '+phone+' لتأكيد الشحن والدفع.</p>'+
+      document.getElementById('checkout-form-wrap').innerHTML='<div class="co-success"><span class="eyebrow-latin">ORDER '+shown+'</span><h2 class="display">طلبك وصلنا.</h2>'+
+        '<p>رقم طلبك <strong dir="ltr">'+shown+'</strong>. '+(saved?'اتسجل عندنا':'اتحفظ على جهازك وهيتبعت لينا أول ما الاتصال يرجع')+'، وفريق ست هيتواصل معاكي على '+phone+' لتأكيد الشحن والدفع.</p>'+
         '<div class="sum-rows" style="max-width:460px;margin:22px auto">'+rows+'<div class="sum-row total"><span>الإجمالي (قبل الشحن)</span><span>'+money(subtotal)+'</span></div></div>'+
-        '<p style="color:var(--muted);font-size:14px">طريقة الدفع: عند الاستلام. الدفع الإلكتروني قريبًا.</p>'+
+        (order.orderNo?'<p><a class="btn" href="track.html">تتبع طلبي <span class="arr">←</span></a></p>':'')+'<p style="color:var(--muted);font-size:14px">طريقة الدفع: عند الاستلام. الدفع الإلكتروني قريبًا.</p>'+
         '<p style="margin-top:22px"><a class="btn" href="shop.html">كمّلي تسوق <span class="arr">←</span></a></p></div>';
       try{window.dispatchEvent(new Event('storage'))}catch(x){}
       document.querySelectorAll('.bag-count').forEach(function(b){b.textContent='';b.classList.remove('on')});
       window.scrollTo({top:0,behavior:'smooth'});
     }
-    post(order).then(function(){done(true)}).catch(function(){
+    post(order).then(function(r){done(true,r&&r.orderNo)}).catch(function(){
       var q=rd('sitt_order_queue',[]);q.push(order);localStorage.setItem('sitt_order_queue',JSON.stringify(q));done(false);
     });
   },true);
