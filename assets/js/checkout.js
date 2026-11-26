@@ -2,6 +2,7 @@
   var form=document.getElementById('checkout-form');
   if(!form)return;
   var CAT={malika:['شميز اللفّة الذهبية',950],shams:['بلوزة جرس اللوتس',650],oud:['بلوزة العود الذهبي',950],nil:['شميز اللفّة الذهبية',950]};
+  (window.SITT_CAT||[]).forEach(function(p){CAT[p.id]=[p.name,p.price]});
   var AR='٠١٢٣٤٥٦٧٨٩';
   function ar(n){return String(n).replace(/\d/g,function(d){return AR[d]}).replace(/,/g,'٬')}
   function money(n){return ar(Number(n).toLocaleString('en-US'))+' ج.م'}
