@@ -628,3 +628,7 @@ button.dot::after { content: ''; position: absolute; inset: -9px; }
 .track-link .tl-t{display:none;font-size:13px}
 @media(min-width:900px){.track-link .tl-t{display:inline}}
 .topbar .tb-track{color:#e8d6a8;text-decoration:underline;text-underline-offset:3px;margin-inline-start:4px}
+/* original-colour logo (not tinted by site colour) */
+.brand-emblem{width:54px;height:54px;object-fit:cover;border-radius:9px;border:1px solid #cba85e;background:#ebe0bd}
+.f-mark{width:92px;height:92px;object-fit:cover;border-radius:12px;border:1px solid #cba85e;background:#ebe0bd}
+.fin-logo{width:150px;height:150px;object-fit:cover;border-radius:16px;border:1px solid #cba85e;background:#ebe0bd;opacity:1}
