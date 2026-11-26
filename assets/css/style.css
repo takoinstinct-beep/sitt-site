@@ -553,3 +553,6 @@ input, select, textarea { font-family: inherit; }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; gap: 6px; }
 }
+
+.f-mark{width:86px;height:auto;margin-bottom:14px}
+.brand-emblem{width:auto;height:46px}
