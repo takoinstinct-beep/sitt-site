@@ -8,10 +8,10 @@ var P=[
 ["دليل المقاسات","Size guide"],["الشحن والاستبدال","Shipping & exchange"],["تواصلي معانا","Contact us"],["ست، ملكة بطبعك.","SITT, a queen by nature."],["من إلهام مصر، لكل ست.","Inspired by Egypt, for every woman."],
 ["جميع الحقوق محفوظة ©","All rights reserved ©"],["سياسة الخصوصية","Privacy policy"],["الشروط والأحكام","Terms & conditions"],["ســت","SITT"],["ست","SITT"],["ست SITT","SITT"],
 ["الحقيبة","Bag"],["بحث","Search"],["شعار ست","SITT logo"],["رموز ست","SITT symbols"],["لون الموقع","Site color"],
-["أسود","Black"],["بوردو","Burgundy"],["كريمي","Cream"],["أضيفي للمفضلة","Add to wishlist"],["المفضلة","Wishlist"],["أقل","Less"],["أكتر","More"],
+["أسود","Black"],["برجندي","Burgundy"],["كريمي","Cream"],["أضيفي للمفضلة","Add to wishlist"],["المفضلة","Wishlist"],["أقل","Less"],["أكتر","More"],
 ["اسم العائلة","Last name"],["الاسم الأول","First name"],["اسمك الأول","Your first name"],["الدور / رقم الشقة","Floor / apartment no."],["بريدك الإلكتروني","Your email"],["البريد الإلكتروني","Email"],
 ["حابة تقولي لنا حاجة؟","Anything you want to tell us?"],["علامة قريبة من العنوان","A landmark near the address"],["عنوان التوصيل بالتفصيل","Full delivery address"],
-["بلوزة العود الذهبي","Golden Oud Blouse"],["بلوزة جرس اللوتس","Lotus Bell Blouse"],["شميز اللفّة الذهبية","Golden Wrap Shirt"],["شميز اللفّة الذهبية أسود","Golden Wrap Shirt, Black"],["شميز اللفّة الذهبية بوردو","Golden Wrap Shirt, Burgundy"],["شميز اللفّة الذهبية كريمي","Golden Wrap Shirt, Cream"],
+["بلوزة العود الذهبي","Golden Oud Blouse"],["بلوزة جرس اللوتس","Lotus Bell Blouse"],["شميز اللفّة الذهبية","Golden Wrap Shirt"],["شميز اللفّة الذهبية أسود","Golden Wrap Shirt, Black"],["شميز اللفّة الذهبية برجندي","Golden Wrap Shirt, Burgundy"],["شميز اللفّة الذهبية كريمي","Golden Wrap Shirt, Cream"],
 ["جديد","New"],["الكل","All"],["الترتيب: الأحدث","Sort: Newest"],["التيشيرتات... قريبًا","Tees... coming soon"],["بلغوني","Notify me"],
 ["الفصل الأول","Chapter One"],["الفصل الأول من حكايتنا","The first chapter of our story"],["الفصل الأول — قطع تحكيها، وحكاية تكمّلها.","Chapter One: pieces that tell a story, and a story you complete."],
 ["اكتشفي المجموعة","Explore the collection"],["اعرفي حكايتنا","Know our story"],["شوفي القطع","See the pieces"],["ادخلي الفصل الأول","Enter Chapter One"],["أضيفي للحقيبة","Add to bag"],["اضيفيها في المفضلة","Add it to wishlist"],
@@ -75,7 +75,7 @@ var P=[
 ["اللي","that"],["الأول","first"],["و","and"],["من","from"],["على","on"],["مش","not"],["مصرية","Egyptian"],["بتعدي","passing"],["بتلبسيها،","you wear,"],["النهارده","today"],["قرأت","read"],["وتوافق عليهم.","and agree to them."],["بلغوني","Notify me"],["أي","any"],["اللون","Color"],["على راحتك","at your ease"],["حقيبة التسوق","Shopping bag"],["إتمام الطلب","Checkout"],["الحقيبة ١. بياناتك وعنوانك — ٢. مراجعة وتأكيد الطلب","Bag 1. Your details and address — 2. Review and confirm"],["الإسكندرية","Alexandria"],["مصر","Egypt"]
 ];
 var D={},W=[];P.forEach(function(p){D[p[0]]=p[1]});
-[["ج.م","EGP"],["المقاس","Size"],["الكمية","Qty"],["بوردو","Burgundy"],["أسود","Black"],["كريمي","Cream"],["الإجمالي","Total"],["الدفع عند الاستلام","cash on delivery"],["شميز اللفّة الذهبية","Golden Wrap Shirt"],["بلوزة العود الذهبي","Golden Oud Blouse"],["بلوزة جرس اللوتس","Lotus Bell Blouse"],["طلب","Order"],["ست","SITT"],["،",","],["←","→"],["الشروط","terms"],["وأوافق على","and I agree to"]].forEach(function(p){W.push(p)});
+[["ج.م","EGP"],["المقاس","Size"],["الكمية","Qty"],["برجندي","Burgundy"],["أسود","Black"],["كريمي","Cream"],["الإجمالي","Total"],["الدفع عند الاستلام","cash on delivery"],["شميز اللفّة الذهبية","Golden Wrap Shirt"],["بلوزة العود الذهبي","Golden Oud Blouse"],["بلوزة جرس اللوتس","Lotus Bell Blouse"],["طلب","Order"],["ست","SITT"],["،",","],["←","→"],["الشروط","terms"],["وأوافق على","and I agree to"]].forEach(function(p){W.push(p)});
 var AD='٠١٢٣٤٥٦٧٨٩';
 window.SITT_I18N_ADD=function(ps){ps.forEach(function(p){D[p[0]]=p[1]})};
 (window.SITT_I18N_Q||[]).forEach(function(ps){window.SITT_I18N_ADD(ps)});
@@ -174,9 +174,9 @@ function setLang(en,persist){
 }
 /* ---------- search ---------- */
 var CAT=[
- {u:'product.html?p=malika',ar:'شميز اللفّة الذهبية',en:'Golden Wrap Shirt',p:950,k:'شميز قميص شيميز لفة ذهبية بوردو اسود كريمي shirt wrap golden burgundy black cream'},
- {u:'product.html?p=oud',ar:'بلوزة العود الذهبي',en:'Golden Oud Blouse',p:950,k:'بلوزة عود ذهبي بوردو blouse oud golden burgundy'},
- {u:'product.html?p=shams',ar:'بلوزة جرس اللوتس',en:'Lotus Bell Blouse',p:650,k:'بلوزة جرس لوتس بوردو blouse lotus bell flare burgundy'}
+ {u:'product.html?p=malika',ar:'شميز اللفّة الذهبية',en:'Golden Wrap Shirt',p:950,k:'شميز قميص شيميز لفة ذهبية برجندي اسود كريمي shirt wrap golden burgundy black cream'},
+ {u:'product.html?p=oud',ar:'بلوزة العود الذهبي',en:'Golden Oud Blouse',p:950,k:'بلوزة عود ذهبي برجندي blouse oud golden burgundy'},
+ {u:'product.html?p=shams',ar:'بلوزة جرس اللوتس',en:'Lotus Bell Blouse',p:650,k:'بلوزة جرس لوتس برجندي blouse lotus bell flare burgundy'}
 ];
 (window.SITT_CAT||[]).forEach(function(p){var o={u:'product.html?p='+p.id,ar:p.name,en:p.nameEn||p.name,p:p.price,k:(p.name+' '+(p.nameEn||'')).toLowerCase()},f=-1;CAT.forEach(function(x,n){if(x.u===o.u)f=n});if(f>-1)CAT[f]=Object.assign(CAT[f],{ar:o.ar,en:o.en,p:o.p});else CAT.push(o)});
 function norm(s){return String(s).toLowerCase().replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/ّ/g,'').trim()}
