@@ -15,14 +15,10 @@
   const read = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v === null || v === undefined ? d : v; } catch (e) { return d; } };
   const write = (k, v) => localStorage.setItem(k, JSON.stringify(v));
 
-  // Seed demo state once so الحقيبة/المفضلة match the approved designs on first visit.
-  if (!localStorage.getItem('sitt_seeded')) {
-    write('sitt_cart', [
-      { id: 'malika', size: 'M', color: 'بوردو', qty: 1 },
-      { id: 'shams', size: 'S', color: 'بوردو', qty: 1 }
-    ]);
-    write('sitt_wish', ['nil', 'malika']);
-    localStorage.setItem('sitt_seeded', '1');
+  // One-time cleanup of the old demo seed (fake cart/wishlist).
+  if (!localStorage.getItem('sitt_v2')) {
+    if (localStorage.getItem('sitt_seeded')) { localStorage.removeItem('sitt_cart'); localStorage.removeItem('sitt_wish'); }
+    localStorage.setItem('sitt_v2', '1');
   }
 
   const getCart = () => read('sitt_cart', []);
