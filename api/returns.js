@@ -1,0 +1,13 @@
+const { returnLookup, returnCreate } = require('../lib/store');
+module.exports = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.status(204).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'method_not_allowed' });
+  try {
+    const b = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
+    const out = b.action === 'create' ? await returnCreate(b) : await returnLookup(b.orderNo, b.phone);
+    res.status(out.status).json(out.json);
+  } catch (e) { console.error(e); res.status(500).json({ error: 'server_error' }); }
+};
