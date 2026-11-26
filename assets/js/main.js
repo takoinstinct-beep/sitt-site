@@ -4,10 +4,10 @@
 
   /* ---------- catalog ---------- */
   const PRODUCTS = {
-    malika: { id: 'malika', name: 'شميز اللفّة الذهبية', price: 950, img: 'assets/img/shirt-burgundy.jpg', color: 'بوردو', isNew: true, url: 'product.html?p=malika' },
+    malika: { id: 'malika', name: 'شميز اللفّة الذهبية', price: 950, img: 'assets/img/shirt-burgundy.jpg', color: 'برجندي', isNew: true, url: 'product.html?p=malika' },
     nil:    { id: 'nil',    name: 'شميز اللفّة الذهبية',  price: 950, img: 'assets/img/shirt-black.jpg',    color: 'أسود',      url: 'product.html?p=malika' },
-    oud:    { id: 'oud',    name: 'بلوزة العود الذهبي', price: 950, img: 'assets/img/oud-burgundy.jpg', color: 'بوردو', url: 'product.html?p=oud' },
-    shams:  { id: 'shams',  name: 'بلوزة جرس اللوتس', price: 650, img: 'assets/img/flare-burgundy.jpg', color: 'بوردو',     url: 'product.html?p=shams' }
+    oud:    { id: 'oud',    name: 'بلوزة العود الذهبي', price: 950, img: 'assets/img/oud-burgundy.jpg', color: 'برجندي', url: 'product.html?p=oud' },
+    shams:  { id: 'shams',  name: 'بلوزة جرس اللوتس', price: 650, img: 'assets/img/flare-burgundy.jpg', color: 'برجندي',     url: 'product.html?p=shams' }
   };
   const DOTS = ['#33291f', '#b9a77f', '#e8dfca'];
   const CATP = (window.SITT_CAT || []);
@@ -202,7 +202,7 @@
       VARS[p.id] = Object.assign(VARS[p.id] || {}, { name: p.name, price: money(p.price), pre: p.pre || '', cat: p });
       if (p.desc) VARS[p.id].desc = p.desc; else if (!VARS[p.id].desc) VARS[p.id].desc = '';
     });
-    const COLS0 = [['burgundy', 'بوردو', '#6b2335'], ['black', 'أسود', '#1b1b1b'], ['cream', 'كريمي', '#efe6d3']];
+    const COLS0 = [['burgundy', 'برجندي', '#6b2335'], ['black', 'أسود', '#1b1b1b'], ['cream', 'كريمي', '#efe6d3']];
     const PID = (new URLSearchParams(location.search).get('p')) && VARS[new URLSearchParams(location.search).get('p')] ? new URLSearchParams(location.search).get('p') : 'malika';
     const V = VARS[PID];
     if (V.cat && V.cat.active === false) { location.replace('shop.html'); return; }
