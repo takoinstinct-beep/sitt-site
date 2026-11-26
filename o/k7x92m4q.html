@@ -62,18 +62,47 @@ function demoData(){
   var P=[['malika','شميز اللفّة الذهبية',950],['shams','بلوزة جرس اللوتس',650],['oud','بلوزة العود الذهبي',950]],C=['برجندي','أسود','كريمي'],S=['S','M','L','XL'],SS=['new','confirmed','shipped','delivered','delivered','delivered','cancelled'];
   var seed=7;function r(){seed=(seed*9301+49297)%233280;return seed/233280}
   var os=[];for(var i=0;i<60;i++){var p=P[Math.floor(r()*3)],q=1+Math.floor(r()*2),d=new Date(Date.now()-r()*150*864e5);
-   os.push({orderNo:'DEMO-'+(1001+i),createdAt:d.toISOString(),status:SS[Math.floor(r()*SS.length)],courierNo:'',total:p[2]*q,items:[{id:p[0],name:p[1],color:C[Math.floor(r()*3)],size:S[Math.floor(r()*4)],qty:q,unitPrice:p[2],unitCost:p[2]*0.45}],customer:{name:'عميلة تجريبية',phone:'010xxxxxxxx'},shipping:{governorate:'القاهرة',address:'—'},payment:{method:'cod',status:'pending'}})}
+   os.push({orderNo:'DEMO-'+(1001+i),createdAt:d.toISOString(),status:SS[Math.floor(r()*SS.length)],courierNo:'',total:p[2]*q,items:[{id:p[0],name:p[1],color:C[Math.floor(r()*3)],size:S[Math.floor(r()*4)],qty:q,unitPrice:p[2],unitCost:p[2]*0.45}],customer:{name:'عميلة تجريبية',phone:'010xxxxxxxx'},shipping:{governorate:'القاهرة',address:'—'},payment:(function(){var cd=r()<0.4,st=SS[0];return {method:cd?'card':'cod',status:cd?'paid':'pending'}})()})}
   return os;
 }
-function statsFrom(os,from,to){
-  var o={count:0,revenue:0,cost:0,gatewayFees:0,shippingCost:0,profit:0,funnel:{},cancelled:0,byProduct:{},byColor:{},bySize:{},byMonth:{}};
-  os.forEach(function(x){var t=x.createdAt.slice(0,10);if(from&&t<from)return;if(to&&t>to)return;
-   o.funnel[x.status]=(o.funnel[x.status]||0)+1;if(x.status==='cancelled'){o.cancelled++;return}
-   var c=x.items.reduce(function(s,i){return s+i.qty*(i.unitCost||0)},0);o.count++;o.revenue+=x.total;o.cost+=c;
-   var m=x.createdAt.slice(0,7),mm=o.byMonth[m]||(o.byMonth[m]={revenue:0,profit:0,orders:0});mm.revenue+=x.total;mm.orders++;mm.profit+=x.total-c;
-   x.items.forEach(function(i){var p=o.byProduct[i.id]||(o.byProduct[i.id]={name:i.name,qty:0,revenue:0});p.qty+=i.qty;p.revenue+=i.qty*i.unitPrice;o.byColor[i.color]=(o.byColor[i.color]||0)+i.qty;o.bySize[i.size]=(o.bySize[i.size]||0)+i.qty})});
-  o.profit=o.revenue-o.cost-o.gatewayFees-o.shippingCost;return o;
+function statsFrom(os,from,to){return acctStats(os,{gatewayPct:0,courierCost:0},from,to)}
+function acctStats(orders, cfg, from, to) {
+  var iso = function (v) { return new Date(v).toISOString(); };
+  var o = { count: 0, revenue: 0, gross: 0, refunds: 0, cost: 0, gatewayFees: 0, shippingCost: 0, profit: 0, deferred: 0, deferredCount: 0, openCod: 0, openCodCount: 0, receivable: 0, receivableCount: 0, refundDue: 0, refundDueCount: 0, funnel: {}, cancelled: 0, byProduct: {}, byColor: {}, bySize: {}, byMonth: {}, recon: { total: 0, delivered: 0, deferred: 0, open: 0, refundedEarly: 0 } };
+  orders.forEach(function (x) {
+    var created = iso(x.createdAt).slice(0, 10), inC = !((from && created < from) || (to && created > to));
+    var pay = x.payment || {}, ps = pay.status || 'pending', cod = !pay.method || pay.method === 'cod', total = Number(x.total) || 0;
+    if (inC) {
+      o.funnel[x.status] = (o.funnel[x.status] || 0) + 1;
+      if (x.status === 'cancelled') o.cancelled++;
+      else x.items.forEach(function (i) {
+        var p = o.byProduct[i.id] || (o.byProduct[i.id] = { name: i.name, qty: 0, revenue: 0 });
+        p.qty += i.qty; p.revenue += i.qty * i.unitPrice;
+        o.byColor[i.color] = (o.byColor[i.color] || 0) + i.qty; o.bySize[i.size] = (o.bySize[i.size] || 0) + i.qty;
+      });
+    }
+    if (x.status === 'cancelled') { if (ps === 'paid') { o.refundDue += total; o.refundDueCount++; } return; }
+    o.recon.total += total;
+    if (x.status === 'delivered') {
+      o.recon.delivered += total;
+      if (ps === 'pending') { o.receivable += total; o.receivableCount++; }
+      var rd = iso(x.deliveredAt || x.updatedAt || x.createdAt).slice(0, 10);
+      if ((from && rd < from) || (to && rd > to)) return;
+      var refunded = ps === 'refunded', net = refunded ? 0 : total;
+      var cost = refunded ? 0 : x.items.reduce(function (s, i) { return s + i.qty * (i.unitCost || 0); }, 0);
+      var fee = refunded || cod ? 0 : total * (cfg.gatewayPct || 0) / 100, ship = refunded ? 0 : (cfg.courierCost || 0);
+      o.gross += total; if (refunded) o.refunds += total; else o.count++;
+      o.revenue += net; o.cost += cost; o.gatewayFees += fee; o.shippingCost += ship;
+      var m = rd.slice(0, 7), mm = o.byMonth[m] || (o.byMonth[m] = { revenue: 0, profit: 0, orders: 0 });
+      mm.revenue += net; mm.profit += net - cost - fee - ship; if (!refunded) mm.orders++;
+    } else if (ps === 'paid') { o.deferred += total; o.deferredCount++; o.recon.deferred += total; }
+    else if (ps === 'refunded') o.recon.refundedEarly += total;
+    else { o.openCod += total; o.openCodCount++; o.recon.open += total; }
+  });
+  o.profit = o.revenue - o.cost - o.gatewayFees - o.shippingCost;
+  return o;
 }
+
 function bars(obj,fmt){var k=Object.keys(obj),mx=Math.max.apply(null,k.map(function(x){return obj[x].v}).concat([1]));
   return k.map(function(x){return '<div class="bar"><span>'+esc(obj[x].l||x)+'</span><span><i style="width:'+Math.max(3,obj[x].v/mx*100)+'%"></i></span><em>'+(fmt?fmt(obj[x].v):n(obj[x].v))+'</em></div>'}).join('')||'<p class="msg" style="color:#7d7268">مفيش بيانات.</p>';
 }
@@ -94,8 +123,10 @@ function dash(el){
     var pm={};Object.keys(s.byMonth).sort().forEach(function(k){pm[k]={v:Math.max(0,s.byMonth[k].profit)}});
     var q={};Object.keys(s.byMonth).forEach(function(k){var y=k.slice(0,4)+' Q'+(Math.floor((+k.slice(5)-1)/3)+1);q[y]=q[y]||{v:0};q[y].v+=s.byMonth[k].revenue});
     var y={};Object.keys(s.byMonth).forEach(function(k){var a=k.slice(0,4);y[a]=y[a]||{v:0};y[a].v+=s.byMonth[k].revenue});
-    out.innerHTML='<div class="cards"><div class="kc"><span>عدد المبيعات</span><b>'+n(s.count)+'</b></div><div class="kc"><span>الإيراد (ج.م)</span><b>'+n(s.revenue)+'</b></div><div class="kc"><span>الربح (ج.م)</span><b>'+n(s.profit)+'</b></div><div class="kc"><span>الملغي</span><b>'+n(s.cancelled)+'</b></div></div>'+
-     '<p class="msg" style="color:#7d7268">الربح = الإيراد − تكلفة القطع − رسوم الدفع − تكلفة الشحن علينا (الأخيرين من إعدادات السيرفر، حاليًا صفر).</p>'+
+    var K=function(l,v,sub){return '<div class="kc"><span>'+l+'</span><b>'+n(v)+'</b>'+(sub?'<small style="display:block;font-size:11px;color:#7d7268">'+sub+'</small>':'')+'</div>'},rc=s.recon,chk=Math.round(rc.total)===Math.round(rc.delivered+rc.deferred+rc.open+rc.refundedEarly);
+    out.innerHTML='<div class="cards">'+K('الإيراد (ج.م)',s.revenue,'اتسلّم فعلًا، بعد المرتجعات')+K('إيراد مقدم (ج.م)',s.deferred,n(s.deferredCount)+' طلب مدفوع ولسه ماتسلمش')+K('الربح (ج.م)',s.profit,'على الطلبات المسلّمة بس')+K('عدد التسليمات',s.count)+K('طلبات مفتوحة عند الاستلام',s.openCod,n(s.openCodCount)+' طلب، مش فلوس لسه')+K('مستحق من شركة الشحن',s.receivable,n(s.receivableCount)+' طلب اتسلّم ولسه ماتحصّلش')+K('مبالغ مستردة مستحقة',s.refundDue,n(s.refundDueCount)+' ملغي ومدفوع')+K('المرتجعات',s.refunds,'طلبات مسلّمة واتردّت')+K('الملغي',s.cancelled)+'</div>'+
+     '<div class="box"><h3>مطابقة الأرقام</h3><div style="font-size:13px;line-height:2">إجمالي الطلبات غير الملغية: <b>'+n(rc.total)+'</b><br>= مسلّم '+n(rc.delivered)+' + إيراد مقدم '+n(rc.deferred)+' + مفتوحة عند الاستلام '+n(rc.open)+(rc.refundedEarly?' + مستردة قبل التسليم '+n(rc.refundedEarly):'')+' &nbsp;'+(chk?'✔ متطابق':'✖ فيه فرق')+'</div></div>'+
+     '<p class="msg" style="color:#7d7268;line-height:1.8">الإيراد بيتسجل لما الطلب يبقى «اتسلّم» وبتاريخ التسليم. الفلوس المدفوعة قبل التسليم (حالة الدفع «مدفوع») بتفضل «إيراد مقدم» (التزام) لحد التسليم. الدفع عند الاستلام مش بيتحسب إيراد ولا إيراد مقدم قبل التسليم. الطلب الملغي أو المسترد بيتشال، والتكلفة بتتسجل مع الإيراد بس. الربح = الإيراد − تكلفة القطع − رسوم الدفع (للدفع الإلكتروني) − تكلفة الشحن (حاليًا صفر). الأرصدة (مقدم/مفتوحة/مستحق) لحظية ومش بتتأثر بفلتر التاريخ.</p>'+
      '<div class="box"><h3>مسار الطلبات</h3>'+bars(fun)+'</div><div class="box"><h3>الأكثر مبيعًا (قطع)</h3>'+bars(prod)+'</div><div class="box"><h3>الألوان</h3>'+bars(col)+'</div><div class="box"><h3>المقاسات</h3>'+bars(siz)+'</div>'+
      '<div class="box"><h3>الإيراد الشهري</h3>'+bars(mon,n)+'</div><div class="box"><h3>الربح الشهري</h3>'+bars(pm,n)+'</div><div class="box"><h3>الإيراد ربع سنوي</h3>'+bars(q,n)+'</div><div class="box"><h3>الإيراد سنوي</h3>'+bars(y,n)+'</div>';
    }).catch(function(){})}
@@ -106,11 +137,11 @@ function orders(el){
   var p=demo?Promise.resolve({orders:demoData().slice(0,25).sort(function(a,b){return a.createdAt<b.createdAt?1:-1})}):call('orders','GET');
   p.then(function(j){var os=j.orders||[];if(!os.length){el.innerHTML='<p>مفيش طلبات لسه.</p>';return}
    el.innerHTML=os.map(function(o){var its=o.items.map(function(i){return esc(i.name)+' / '+esc(i.color)+' / '+esc(i.size)+' × '+i.qty}).join('<br>');
-    return '<div class="ord" data-no="'+esc(o.orderNo)+'"><h4><span dir="ltr">'+esc(o.orderNo)+'</span> — '+esc(o.customer.name)+'</h4><div>'+new Date(o.createdAt).toLocaleString('ar-EG')+'</div><div>📞 <span dir="ltr">'+esc(o.customer.phone)+'</span></div><div>'+esc(o.shipping.governorate)+'، '+esc(o.shipping.area||'')+'، '+esc(o.shipping.address)+'</div><div style="margin:6px 0">'+its+'</div><div>الإجمالي: <b>'+n(o.total)+' ج.م</b> — الدفع: '+esc(o.payment.method)+' ('+esc(o.payment.status)+')</div>'+
-     '<div class="rowf"><select class="st">'+Object.keys(ST).map(function(k){return '<option value="'+k+'"'+(o.status===k?' selected':'')+'>'+ST[k]+'</option>'}).join('')+'</select><input class="cn" dir="ltr" placeholder="رقم شحنة شركة الشحن" value="'+esc(o.courierNo||'')+'"><button class="ad-btn sv">حفظ</button><span class="msg"></span></div></div>'}).join('');
+    return '<div class="ord" data-no="'+esc(o.orderNo)+'"><h4><span dir="ltr">'+esc(o.orderNo)+'</span> — '+esc(o.customer.name)+'</h4><div>'+new Date(o.createdAt).toLocaleString('ar-EG')+'</div><div>📞 <span dir="ltr">'+esc(o.customer.phone)+'</span></div><div>'+esc(o.shipping.governorate)+'، '+esc(o.shipping.area||'')+'، '+esc(o.shipping.address)+'</div><div style="margin:6px 0">'+its+'</div><div>الإجمالي: <b>'+n(o.total)+' ج.م</b> — الدفع: '+esc(o.payment.method==='cod'?'عند الاستلام':'إلكتروني')+'</div>'+
+     '<div class="rowf"><select class="ps">'+[['pending','الدفع: لسه'],['paid','الدفع: مدفوع'],['refunded','الدفع: مسترد']].map(function(k){return '<option value="'+k[0]+'"'+(o.payment.status===k[0]?' selected':'')+'>'+k[1]+'</option>'}).join('')+'</select><select class="st">'+Object.keys(ST).map(function(k){return '<option value="'+k+'"'+(o.status===k?' selected':'')+'>'+ST[k]+'</option>'}).join('')+'</select><input class="cn" dir="ltr" placeholder="رقم شحنة شركة الشحن" value="'+esc(o.courierNo||'')+'"><button class="ad-btn sv">حفظ</button><span class="msg"></span></div></div>'}).join('');
    [].forEach.call(el.querySelectorAll('.ord'),function(d){d.querySelector('.sv').onclick=function(){var m=d.querySelector('.msg');
     if(demo){m.textContent='تجريبي: مش بيتحفظ';return}
-    call('update','POST',{orderNo:d.getAttribute('data-no'),status:d.querySelector('.st').value,courierNo:d.querySelector('.cn').value}).then(function(r){m.style.color=r.ok?'#3a7a3a':'#a33';m.textContent=r.ok?'اتحفظ':'مشكلة'})}});
+    call('update','POST',{orderNo:d.getAttribute('data-no'),status:d.querySelector('.st').value,paymentStatus:d.querySelector('.ps').value,courierNo:d.querySelector('.cn').value}).then(function(r){m.style.color=r.ok?'#3a7a3a':'#a33';m.textContent=r.ok?'اتحفظ':'مشكلة'})}});
   }).catch(function(){});
 }
 function subs(el){
