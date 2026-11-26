@@ -632,3 +632,8 @@ button.dot::after { content: ''; position: absolute; inset: -9px; }
 .brand-emblem{width:54px;height:54px;object-fit:cover;border-radius:9px;border:1px solid #cba85e;background:#ebe0bd}
 .f-mark{width:92px;height:92px;object-fit:cover;border-radius:12px;border:1px solid #cba85e;background:#ebe0bd}
 .fin-logo{width:150px;height:150px;object-fit:cover;border-radius:16px;border:1px solid #cba85e;background:#ebe0bd;opacity:1}
+/* logo: transparent cutout, original colours */
+.brand-emblem,.f-mark,.fin-logo{background:none!important;border:0!important;border-radius:0!important;object-fit:contain!important;opacity:1}
+.brand-emblem{width:auto!important;height:54px!important}
+.f-mark{width:auto!important;height:120px!important}
+.fin-logo{width:auto!important;height:170px!important}
