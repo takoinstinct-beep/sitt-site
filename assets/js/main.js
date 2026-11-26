@@ -6,6 +6,7 @@
   const PRODUCTS = {
     malika: { id: 'malika', name: 'شميز ملكة', price: 950, img: 'assets/img/shirt-burgundy.jpg', color: 'بوردو', isNew: true, url: 'product.html?p=malika' },
     nil:    { id: 'nil',    name: 'شميز نيل',  price: 950, img: 'assets/img/shirt-black.jpg',    color: 'أسود',      url: 'product.html?p=malika' },
+    oud:    { id: 'oud',    name: 'بلوزة العود', price: 950, img: 'assets/img/oud-burgundy.jpg', color: 'بوردو', url: 'product.html?p=oud' },
     shams:  { id: 'shams',  name: 'بلوزة شمس', price: 650, img: 'assets/img/flare-burgundy.jpg', color: 'بوردو',     url: 'product.html?p=shams' }
   };
   const DOTS = ['#33291f', '#b9a77f', '#e8dfca'];
@@ -189,10 +190,11 @@
   function bindProductPage() {
     const VARS = {
       malika: { name: 'شميز ملكة', price: '٩٥٠ ج.م', pre: 'shirt', desc: 'حضور ملكي من غير تكلّف. شميز بقصّة ملفوفة وتفاصيل مطرّزة بالذهبي مستوحاة من جذورنا، تلبس بطريقتك وتحكي عنك.' },
+      oud: { name: 'بلوزة العود', price: '٩٥٠ ج.م', pre: 'oud', desc: 'بلوزة بأكمام واسعة وطباعة ذهبية لآلة العود بأيادٍ عازفة، وأزرار برموز مصرية. حكاية موسيقى على قماش.' },
       shams: { name: 'بلوزة شمس', price: '٦٥٠ ج.م', pre: 'flare', desc: 'بلوزة بأكمام واسعة وأزرار برموز مصرية، وتطريز دقيق على الأكمام والياقة. أنوثة هادية بروح حكايتنا.' }
     };
     const COLS = [['burgundy', 'بوردو'], ['black', 'أسود'], ['cream', 'كريمي']];
-    const PID = (new URLSearchParams(location.search).get('p') === 'shams') ? 'shams' : 'malika';
+    const PID = (new URLSearchParams(location.search).get('p')) && VARS[new URLSearchParams(location.search).get('p')] ? new URLSearchParams(location.search).get('p') : 'malika';
     const V = VARS[PID];
     const imgOf = (c) => 'assets/img/' + V.pre + '-' + c + '.jpg';
     if (document.getElementById('gallery-main-img')) {
