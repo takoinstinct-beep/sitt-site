@@ -562,3 +562,19 @@ button.dot { padding: 0; cursor: pointer; position: relative; -webkit-tap-highli
 button.dot::after { content: ''; position: absolute; inset: -9px; }
 .dots { gap: 12px; }
 .swatch { cursor: pointer; touch-action: manipulation; }
+
+.cat-head{background:var(--beige-soft);text-align:right}
+.cat-in{padding:46px 24px 40px}
+.cat-bord{height:12px;background:repeating-linear-gradient(90deg,var(--gold) 0 12px,transparent 12px 20px);opacity:.55}
+.cat-head h1{font-size:clamp(40px,8vw,68px);margin:8px 0 14px}
+.cat-head p{color:var(--muted);max-width:520px}
+.cat-syms{display:flex;gap:22px;margin:6px 0 16px}
+.cat-syms svg{width:38px;height:38px;fill:none;stroke:var(--maroon);stroke-width:1.8;opacity:.85}
+.tees-soon{text-align:center;padding:60px 16px 30px}
+.tees-soon .cat-syms{justify-content:center}
+.tees-soon h2{font-size:clamp(32px,6vw,48px);margin-bottom:8px}
+.tees-soon p{color:var(--muted);margin-bottom:24px}
+.tees-soon .news-form{max-width:520px;margin:0 auto}
+[hidden]{display:none!important}
+@media(max-width:700px){.head-flex{display:block!important}.side-note{display:none}.page-head h1{font-size:40px}html,body{overflow-x:hidden}}
+.tees-soon .news-form{flex-direction:column;gap:10px;align-items:stretch}.tees-soon .news-form .btn{width:100%}
