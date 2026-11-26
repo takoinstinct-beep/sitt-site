@@ -78,10 +78,10 @@ function bars(obj,fmt){var k=Object.keys(obj),mx=Math.max.apply(null,k.map(funct
   return k.map(function(x){return '<div class="bar"><span>'+esc(obj[x].l||x)+'</span><span><i style="width:'+Math.max(3,obj[x].v/mx*100)+'%"></i></span><em>'+(fmt?fmt(obj[x].v):n(obj[x].v))+'</em></div>'}).join('')||'<p class="msg" style="color:#7d7268">مفيش بيانات.</p>';
 }
 function shell(){
-  app.innerHTML='<h1>لوحة المالكين</h1><div class="ad-bar"><button data-v="dash" class="'+(view==='dash'?'on':'')+'">الأرقام</button><button data-v="orders" class="'+(view==='orders'?'on':'')+'">الطلبات</button><button data-v="rets" class="'+(view==='rets'?'on':'')+'">طلبات الاسترجاع</button><button data-v="subs" class="'+(view==='subs'?'on':'')+'">المشتركين</button><button data-v="prods" class="'+(view==='prods'?'on':'')+'">المنتجات</button><button data-v="cost" class="'+(view==='cost'?'on':'')+'">التكلفة</button><button id="dm" class="'+(demo?'on':'')+'">وضع تجريبي</button><button id="lo">خروج</button>'+(demo?'<span class="demo-flag">بيانات تجريبية مش حقيقية</span>':'')+'</div><div id="v"></div>';
+  app.innerHTML='<h1>لوحة المالكين</h1><div class="ad-bar"><button data-v="dash" class="'+(view==='dash'?'on':'')+'">الأرقام</button><button data-v="orders" class="'+(view==='orders'?'on':'')+'">الطلبات</button><button data-v="rets" class="'+(view==='rets'?'on':'')+'">طلبات الاسترجاع</button><button data-v="mail" class="'+(view==='mail'?'on':'')+'">رسالة للمشتركين</button><button data-v="subs" class="'+(view==='subs'?'on':'')+'">المشتركين</button><button data-v="prods" class="'+(view==='prods'?'on':'')+'">المنتجات</button><button data-v="cost" class="'+(view==='cost'?'on':'')+'">التكلفة</button><button id="dm" class="'+(demo?'on':'')+'">وضع تجريبي</button><button id="lo">خروج</button>'+(demo?'<span class="demo-flag">بيانات تجريبية مش حقيقية</span>':'')+'</div><div id="v"></div>';
   [].forEach.call(app.querySelectorAll('[data-v]'),function(b){b.onclick=function(){view=b.getAttribute('data-v');shell()}});
   document.getElementById('dm').onclick=function(){demo=!demo;shell()};document.getElementById('lo').onclick=logout;
-  (view==='dash'?dash:view==='orders'?orders:view==='prods'?prods:view==='subs'?subs:view==='rets'?rets:cost)(document.getElementById('v'));
+  (view==='dash'?dash:view==='orders'?orders:view==='prods'?prods:view==='subs'?subs:view==='rets'?rets:view==='mail'?mail:cost)(document.getElementById('v'));
 }
 function dash(el){
   el.innerHTML='<div class="rowf"><label>من <input type="date" id="f"></label><label>إلى <input type="date" id="t"></label><button class="ad-btn" id="go">تحديث</button></div><div id="out">جاري التحميل...</div>';
@@ -116,7 +116,7 @@ function orders(el){
 function subs(el){
   if(demo){el.innerHTML='<p>مفيش مشتركين في الوضع التجريبي.</p>';return}
   el.innerHTML='جاري التحميل...';
-  call('subscribers','GET').then(function(j){var l=j.subscribers||[];
+  call('subscribers','GET').then(function(j){var l=(j.subscribers||[]).filter(function(x){return !x.unsubscribed});
     el.innerHTML='<div class="box"><h3>مشتركين النشرة: '+n(l.length)+'</h3><div class="rowf"><button class="ad-btn" id="cp">نسخ كل الإيميلات</button></div><div style="margin-top:10px;font-size:14px;direction:ltr;text-align:left">'+l.map(function(x){return '<div>'+esc(x._id)+' <span style="color:#7d7268;font-size:12px">'+esc(String(x.createdAt||'').slice(0,10))+'</span></div>'}).join('')+'</div></div>';
     document.getElementById('cp').onclick=function(){var t=l.map(function(x){return x._id}).join('\n');if(navigator.clipboard)navigator.clipboard.writeText(t).then(function(){document.getElementById('cp').textContent='اتنسخت'})}
   }).catch(function(){});
@@ -141,6 +141,30 @@ function rets(el){
       '<button class="ad-btn" id="rb'+k+'">حفظ</button> <span id="rm'+k+'"></span></div>'}).join('');
     l.forEach(function(r,k){document.getElementById('rb'+k).onclick=function(){
       call('return-update','POST',{id:r._id,status:document.getElementById('rs'+k).value,adminNotes:document.getElementById('rn'+k).value,handledBy:document.getElementById('rh'+k).value}).then(function(x){document.getElementById('rm'+k).textContent=x.ok?'اتحفظ':'حصلت مشكلة';if(x.ok&&x.handledBy)document.getElementById('rh'+k).value=x.handledBy})}});
+  }).catch(function(){});
+}
+
+function mail(el){
+  if(demo){el.innerHTML='<p>مش متاح في الوضع التجريبي.</p>';return}
+  el.innerHTML='جاري التحميل...';
+  Promise.all([call('mail-status','GET'),call('products','GET')]).then(function(r){var st=r[0],pl=(r[1].products||[]);
+    el.innerHTML='<div class="box"><h3>رسالة للمشتركين</h3><p style="font-size:13px">عدد المشتركين الفعالين: <b>'+n(st.recipients||0)+'</b>'+(st.configured?'':' · <span style="color:#a33">الإرسال لسه مش متفعل (مفيش بريد إرسال متوصل)، تقدري تكتبي وتعاينّي بس</span>')+'</p>'+
+    '<input id="ms" placeholder="عنوان الرسالة" style="width:100%;margin:6px 0"><textarea id="mb" rows="7" style="width:100%" placeholder="نص الرسالة (سطر فاضي بين كل فقرة)"></textarea>'+
+    '<select id="mp" style="width:100%;margin:6px 0"><option value="">من غير منتج</option>'+pl.map(function(p){return '<option value="'+esc(p.id)+'">'+esc(p.name)+'</option>'}).join('')+'</select>'+
+    '<div class="rowf"><button class="ad-btn" id="mv">معاينة</button><button class="ad-btn" id="mt">ابعتلي تجربة</button><button class="ad-btn" id="mx">إرسال للكل</button></div><p id="mm" style="font-size:13px"></p><iframe id="mf" style="width:100%;height:420px;border:1px solid #cba85e88;display:none;background:#fff"></iframe></div>';
+    var g=function(i){return document.getElementById(i)},msg=function(t){g('mm').textContent=t};
+    var data=function(){return {subject:g('ms').value,body:g('mb').value,productId:g('mp').value}};
+    g('mv').onclick=function(){call('mail-preview','POST',data()).then(function(j){if(j.html){g('mf').style.display='block';g('mf').srcdoc=j.html;msg('')}else msg('اكتبي العنوان والنص الأول')})};
+    g('mt').onclick=function(){msg('جاري الإرسال...');call('mail-test','POST',data()).then(function(j){msg(j.ok?'اتبعتت تجربة على '+j.to:(j.error==='smtp_not_configured'?'الإرسال لسه مش متفعل':'فشل الإرسال'))})};
+    g('mx').onclick=function(){var d=data();if(!d.subject||!d.body){msg('اكتبي العنوان والنص الأول');return}
+      if(!st.configured){msg('الإرسال لسه مش متفعل');return}
+      if(!confirm('هتتبعت الرسالة لـ '+st.recipients+' مشترك. متأكدة؟ مفيش رجعة.'))return;
+      d.confirmCount=st.recipients;g('mx').disabled=true;
+      (function loop(id){if(id)d.campaignId=id;msg('جاري الإرسال...');call('mail-send','POST',d).then(function(j){
+        if(!j.ok){g('mx').disabled=false;msg('وقف: '+(j.error||'خطأ'));return}
+        msg('اتبعت '+j.sent+' من '+j.total+(j.failed?' (فشل '+j.failed+')':''));
+        if(!j.done)loop(j.campaignId);else{msg('خلص الإرسال: '+j.sent+' من '+j.total+(j.failed?' · فشل '+j.failed:''))}
+      }).catch(function(){g('mx').disabled=false;msg('انقطع الاتصال. متكرريش الإرسال، شوفي الأول وصل لمين.')})})();};
   }).catch(function(){});
 }
 function slugk(x){return String(x||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')}
