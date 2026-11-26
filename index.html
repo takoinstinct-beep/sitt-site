@@ -8,6 +8,67 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"></noscript>
 <link rel="stylesheet" href="assets/css/style.css">
+<style>
+.lp{--g:#b99b5f}
+.lp section{position:relative}
+.lp .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.reveal{opacity:1;transform:none}
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+.js .reveal.in{opacity:1;transform:none}
+.l-hero{min-height:min(88vh,680px);display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:radial-gradient(circle at 50% 38%,#f9f3e8 0,var(--cream) 60%);padding:56px 0 40px}
+.l-hero .sun{position:absolute;top:50%;left:50%;width:min(92vw,620px);transform:translate(-50%,-52%);opacity:.9;pointer-events:none}
+.l-hero .sun *{fill:none;stroke:var(--g);stroke-width:1.2;stroke-dasharray:1000;stroke-dashoffset:0}
+.js .l-hero .sun *{animation:draw 3.2s ease forwards;stroke-dashoffset:1000}
+.js .l-hero .sun .spin{animation:draw 3.2s ease forwards,spin 90s linear infinite;transform-origin:300px 300px;transform-box:view-box}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.l-hero .big{font-family:var(--font-display);font-weight:700;font-size:clamp(190px,58vw,380px);line-height:.95;color:var(--maroon);position:relative}
+.l-hero .tag{font-family:var(--font-display);font-size:clamp(22px,5vw,38px);color:var(--maroon);position:relative;margin-top:6px}
+.l-hero .sub{position:relative;color:var(--muted);margin:14px auto 28px;max-width:420px;padding:0 20px}
+.l-hero .cta{position:relative;display:inline-block;background:var(--maroon);color:var(--white);padding:15px 34px;letter-spacing:.3px}
+.l-hero .hint{position:absolute;bottom:14px;left:0;right:0;font-size:12px;color:var(--muted);letter-spacing:3px;font-family:var(--font-latin)}
+.rib{background:var(--maroon);color:var(--cream);overflow:hidden;white-space:nowrap;padding:14px 0;font-family:var(--font-display);font-size:22px}
+.rib div{display:inline-block;padding-inline-start:0;animation:mq 28s linear infinite}
+.rib span{margin:0 26px}.rib i{color:var(--g);font-style:normal}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(50%)}}
+.manifesto{padding:90px 0;text-align:center}
+.manifesto p{font-family:var(--font-display);font-size:clamp(26px,6.2vw,52px);line-height:1.8;color:#cdbfae}
+.manifesto p b{font-weight:700;color:#cdbfae;transition:color .6s}
+.manifesto p b.on{color:var(--maroon)}
+.chap{font-family:var(--font-latin);letter-spacing:4px;font-size:12px;color:var(--muted);margin-bottom:10px;display:block}
+.sec-t{font-family:var(--font-display);font-size:clamp(30px,6vw,46px);color:var(--maroon);margin-bottom:8px}
+.sec-s{color:var(--muted);max-width:480px;margin-bottom:34px}
+.syms{padding:70px 0;background:var(--beige-soft)}
+.sgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(min-width:760px){.sgrid{grid-template-columns:repeat(4,1fr)}}
+.sc{perspective:700px;height:210px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sc .in{position:relative;width:100%;height:100%;transition:transform .7s;transform-style:preserve-3d}
+.sc.flip .in{transform:rotateY(180deg)}
+.sc .f,.sc .b{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;text-align:center;border:1px solid var(--line)}
+.sc .f{background:var(--white)}.sc .f svg{width:64px;height:64px;stroke:var(--maroon);fill:none;stroke-width:1.6}
+.sc .f em{font-style:normal;margin-top:12px;font-family:var(--font-display);font-size:22px;color:var(--maroon)}
+.sc .b{background:var(--maroon);color:var(--cream);transform:rotateY(180deg);font-size:15px;line-height:1.8}
+.sc .b strong{font-family:var(--font-display);font-size:24px;color:var(--g);margin-bottom:6px}
+.pal{padding:80px 0;text-align:center;transition:background .6s,color .6s;background:var(--pbg,var(--cream));color:var(--pfg,var(--ink))}
+.pal .sec-t{color:var(--pac,var(--maroon))}.pal .sec-s{margin-inline:auto;color:inherit;opacity:.75}
+.pal .name{font-family:var(--font-display);font-size:clamp(34px,8vw,64px);margin:14px 0 24px;color:var(--pac,var(--maroon))}
+.dots{display:flex;gap:18px;justify-content:center}
+.dots button{width:58px;height:58px;border-radius:50%;border:2px solid var(--g);transition:transform .3s}
+.dots button.on{transform:scale(1.18);box-shadow:0 0 0 4px rgba(185,155,95,.35)}
+.steps{padding:80px 0}
+.srow{display:flex;gap:18px;align-items:baseline;padding:22px 0;border-top:1px solid var(--line)}
+.srow:last-child{border-bottom:1px solid var(--line)}
+.srow .n{font-family:var(--font-latin);font-size:34px;color:var(--g);min-width:56px}
+.srow h3{font-family:var(--font-display);font-size:24px;color:var(--maroon);line-height:1.4}
+.srow p{color:var(--muted);font-size:15px}
+.fin{background:var(--maroon-deep);color:var(--cream);text-align:center;padding:90px 20px}
+.fin .big2{font-family:var(--font-display);font-size:clamp(34px,8vw,68px);line-height:1.5;margin-bottom:26px}
+.fin a{display:inline-block;border:1px solid var(--g);color:var(--cream);padding:14px 34px;transition:background .3s}
+.fin a:hover{background:var(--g);color:var(--maroon-deep)}
+.bord{height:14px;background:repeating-linear-gradient(90deg,var(--g) 0 12px,transparent 12px 20px);opacity:.6}
+@media(prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none;transition:none}.rib div,.l-hero .sun *{animation:none!important;stroke-dashoffset:0!important}}
+</style>
+<script>document.documentElement.classList.add('js');setTimeout(function(){document.documentElement.classList.remove('js')},6000)</script>
 </head>
 <body data-page="home">
 
@@ -40,149 +101,62 @@
   </div>
 </header>
 
-<main>
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-panel">
-      <span class="eyebrow-latin">SITT / THE FIRST CHAPTER</span>
-      <h1 class="display">ملكية بالفطرة.<br>معاصرة باختيارك.</h1>
-      <p>روح مصرية عريقة بتفاصيل تشبهك النهارده. شيميزات وتيشيرتات لكل ست بتحكي حكايتها بطريقتها.</p>
-      <div><a class="btn" href="shop.html">اكتشفي المجموعة <span class="arr">←</span></a></div>
-      <p class="hero-note">قطع ست... ملك فيكِ كل يوم.</p>
-    </div>
-    <div class="hero-media">
-      <img src="assets/img/hero-model.jpg" alt="شميز ملكة من ست — الفصل الأول">
-    </div>
-  </section>
-
-  <!-- Marquee -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>جذور مصرية <i>✦</i> حضور ملكي <i>✦</i> روح معاصرة <i>✦</i></span>
-      <span>جذور مصرية <i>✦</i> حضور ملكي <i>✦</i> روح معاصرة <i>✦</i></span>
-      <span>جذور مصرية <i>✦</i> حضور ملكي <i>✦</i> روح معاصرة <i>✦</i></span>
-      <span>جذور مصرية <i>✦</i> حضور ملكي <i>✦</i> روح معاصرة <i>✦</i></span>
-    </div>
+<main class="lp">
+<section class="l-hero">
+  <svg class="sun" viewBox="0 0 600 600" aria-hidden="true">
+    <circle cx="300" cy="300" r="150"/><circle cx="300" cy="300" r="120"/>
+    <g class="spin"><path d="M300 90v-50M300 510v50M90 300h-50M510 300h50M151 151l-35-35M449 449l35 35M449 151l35-35M151 449l-35 35M195 108l-18-30M405 492l18 30M492 195l30-18M108 405l-30 18M405 108l18-30M195 492l-18 30M492 405l30 18M108 195l-30-18"/></g>
+    <circle cx="300" cy="300" r="245" stroke-dasharray="3 9"/>
+  </svg>
+  <div class="wrap">
+    <div class="big">ست</div>
+    <div class="tag">ملكية بالفطرة. معاصرة باختيارك.</div>
+    <p class="sub">روح مصرية عريقة بتفاصيل تشبه النهارده. الفصل الأول من حكايتنا.</p>
+    <a class="cta" href="shop.html">ادخلي الفصل الأول</a>
   </div>
+  <div class="hint">SITT &middot; CHAPTER 01</div>
+</section>
+<div class="rib" aria-hidden="true"><div><span>ملكة بطبعك</span><i>&#9670;</i><span>من جذور ملكية</span><i>&#9670;</i><span>لكل ست حكاية</span><i>&#9670;</i><span>مصر في التفاصيل</span><i>&#9670;</i><span>ملكة بطبعك</span><i>&#9670;</i><span>من جذور ملكية</span><i>&#9670;</i><span>لكل ست حكاية</span><i>&#9670;</i><span>مصر في التفاصيل</span><i>&#9670;</i><span>ملكة بطبعك</span><i>&#9670;</i><span>من جذور ملكية</span><i>&#9670;</i><span>لكل ست حكاية</span><i>&#9670;</i><span>مصر في التفاصيل</span><i>&#9670;</i></div></div>
 
-  <!-- Categories -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head head-row">
-        <div>
-          <h2 class="display">اختاري حكايتك</h2>
-          <p>قطع أساسية بتشبهك، لكل يوم وكل مناسبة.</p>
-        </div>
-      </div>
-      <div class="cats">
-        <a class="cat-card" href="shirts.html">
-          <img src="assets/img/wall-model.jpg" alt="الشيميزات">
-          <span class="cat-label">الشيميزات <span class="arr">←</span></span>
-        </a>
-        <a class="cat-card" href="tees.html">
-          <img src="assets/img/tee-model.jpg" alt="التيشيرتات">
-          <span class="cat-label">التيشيرتات <span class="arr">←</span></span>
-        </a>
-      </div>
-    </div>
-  </section>
+<section class="manifesto"><div class="wrap"><p id="mf"><b>ست</b> <b>مش</b> <b>مجرد</b> <b>لبس.</b> <b>ست</b> <b>حكاية</b> <b>بتلبسيها،</b> <b>من</b> <b>جذور</b> <b>مصرية</b> <b>بتعدي</b> <b>على</b> <b>النهارده</b> <b>بطريقتك</b> <b>إنتِ.</b></p></div></section>
+<div class="bord"></div>
 
-  <!-- Featured products -->
-  <section class="section" style="padding-top: 20px">
-    <div class="container">
-      <div class="section-head head-row">
-        <div>
-          <h2 class="display">الفصل الأول من حكايتنا</h2>
-          <p>تصميمات للحاضر، وإلهام من جذورنا.</p>
-        </div>
-        <a class="link-more" href="shop.html">تسوقي المجموعة ←</a>
-      </div>
-      <div class="grid-products">
-        <article class="card" data-id="malika">
-          <a class="card-img" href="product.html?p=malika">
-            <img src="assets/img/shirt-burgundy.jpg" alt="شميز ملكة">
-            <span class="badge-new">جديد</span>
-            <button class="wish-heart" data-wish="malika" aria-label="أضيفي للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20.5s-8-4.9-8-11a4.6 4.6 0 0 1 8-3.1 4.6 4.6 0 0 1 8 3.1c0 6.1-8 11-8 11z"/></svg></button>
-          </a>
-          <h3 class="card-name">شميز ملكة</h3>
-          <p class="card-price">٩٥٠ ج.م</p>
-          <div class="dots"><i class="dot on" style="--c:#6b2335"></i><i class="dot" style="--c:#1b1b1b"></i><i class="dot" style="--c:#efe6d3"></i></div>
-        </article>
-        <article class="card" data-id="shams">
-          <a class="card-img" href="product.html?p=shams">
-            <img src="assets/img/flare-burgundy.jpg" alt="بلوزة شمس">
-            <button class="wish-heart" data-wish="shams" aria-label="أضيفي للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20.5s-8-4.9-8-11a4.6 4.6 0 0 1 8-3.1 4.6 4.6 0 0 1 8 3.1c0 6.1-8 11-8 11z"/></svg></button>
-          </a>
-          <h3 class="card-name">بلوزة شمس</h3>
-          <p class="card-price">٦٥٠ ج.م</p>
-          <div class="dots"><i class="dot" style="--c:#6b2335"></i><i class="dot" style="--c:#1b1b1b"></i><i class="dot on" style="--c:#efe6d3"></i></div>
-        </article>
-        <article class="card" data-id="oud">
-          <a class="card-img" href="product.html?p=oud">
-            <img src="assets/img/oud-burgundy.jpg" alt="بلوزة العود">
-            <button class="wish-heart" data-wish="oud" aria-label="أضيفي للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20.5s-8-4.9-8-11a4.6 4.6 0 0 1 8-3.1 4.6 4.6 0 0 1 8 3.1c0 6.1-8 11-8 11z"/></svg></button>
-          </a>
-          <h3 class="card-name">بلوزة العود</h3>
-          <p class="card-price">٩٥٠ ج.م</p>
-          <div class="dots"><i class="dot" style="--c:#6b2335"></i><i class="dot" style="--c:#1b1b1b"></i><i class="dot on" style="--c:#efe6d3"></i></div>
-        </article>
-      </div>
-      <p class="collection-note">المجموعة الأولى — قطع محدودة بروح حكايتنا.</p>
-    </div>
-  </section>
+<section class="syms"><div class="wrap">
+  <span class="chap reveal">THE SYMBOLS</span>
+  <h2 class="sec-t reveal">رموز على قطعنا</h2>
+  <p class="sec-s reveal">كل رمز على تصميماتنا له معنى. اضغطي على أي كارت تعرفيه.</p>
+  <div class="sgrid">
+    <div class="sc reveal" tabindex="0"><div class="in"><div class="f"><svg viewBox="0 0 64 64"><ellipse cx="32" cy="16" rx="9" ry="12"/><path d="M32 28v32M16 38h32"/></svg><em>عنخ</em></div><div class="b"><strong>الحياة</strong>مفتاح الحياة عند المصريين القدماء.</div></div></div>
+    <div class="sc reveal" tabindex="0"><div class="in"><div class="f"><svg viewBox="0 0 64 64"><path d="M32 54c-14-6-20-18-20-30 10 2 16 8 20 16 4-8 10-14 20-16 0 12-6 24-20 30z"/><path d="M32 54V30"/></svg><em>اللوتس</em></div><div class="b"><strong>البدايات</strong>زهرة بتتفتح كل صبح من جديد.</div></div></div>
+    <div class="sc reveal" tabindex="0"><div class="in"><div class="f"><svg viewBox="0 0 64 64"><ellipse cx="32" cy="36" rx="14" ry="18"/><path d="M32 18v36M18 28l-8-6M46 28l8-6M18 40l-8 4M46 40l8 4M26 12l-3-6M38 12l3-6"/></svg><em>الجعران</em></div><div class="b"><strong>التجدد</strong>رمز الشمس اللي بتطلع تاني كل يوم.</div></div></div>
+    <div class="sc reveal" tabindex="0"><div class="in"><div class="f"><svg viewBox="0 0 64 64"><path d="M6 30c8-12 18-16 26-16s18 4 26 16c-8 12-18 16-26 16S14 42 6 30z"/><circle cx="32" cy="30" r="7"/><path d="M32 46v10c0 4 6 6 10 3"/></svg><em>عين حورس</em></div><div class="b"><strong>الحماية</strong>عين بتحمي وتبصّر.</div></div></div>
+  </div>
+</div></section>
 
-  <!-- Brand band -->
-  <section class="band-maroon">
-    <div class="container band-in">
-      <div>
-        <p class="eyebrow">حكاية اسم، وحكاية كل ست</p>
-        <h2 class="display">من جذور ملكية،<br>لست النهارده.</h2>
-        <p>«ست» اسم بيجمع إلهام الحضارة المصرية بروح الست المصرية النهارده: قوية، حرّة، وليها حضورها الخاص. بنترجم الإلهام ده لقطع معاصرة تلبسيها بطريقتك، مش عشان تبقى ملكة.. عشان إنتِ أصلاً ملكة.</p>
-        <a class="btn" href="story.html">اعرفي حكايتنا <span class="arr">←</span></a>
-      </div>
-      <div class="illus-card"><img src="assets/img/illus-queen.jpg" alt="SITT — ROOTED IN HER"></div>
-    </div>
-  </section>
+<section class="pal" id="pal"><div class="wrap">
+  <span class="chap reveal">THE PALETTE</span>
+  <h2 class="sec-t reveal">ألوان ست</h2>
+  <p class="sec-s reveal">اختاري لون، والصفحة كلها تلبسه.</p>
+  <div class="name" id="pn">بوردو</div>
+  <div class="dots">
+    <button class="on" data-n="بوردو" data-bg="#662c38" data-fg="#f4eee3" data-ac="#e3c98e" style="background:#662c38" aria-label="بوردو"></button>
+    <button data-n="أسود" data-bg="#1d1a19" data-fg="#f4eee3" data-ac="#e3c98e" style="background:#1d1a19" aria-label="أسود"></button>
+    <button data-n="كريمي" data-bg="#f4eee3" data-fg="#2b2420" data-ac="#662c38" style="background:#ece2d2" aria-label="كريمي"></button>
+  </div>
+</div></section>
 
-  <!-- Pillars -->
-  <section class="section">
-    <div class="container">
-      <div class="pillars">
-        <div class="pillar">
-          <span class="num">01</span>
-          <h3>إلهام من جذورنا</h3>
-          <p>روح مصرية بتكلم لغة النهارده.</p>
-        </div>
-        <div class="pillar">
-          <span class="num">02</span>
-          <h3>حضور معاصر</h3>
-          <p>بساطة في القصّة واختلاف في التفاصيل.</p>
-        </div>
-        <div class="pillar">
-          <span class="num">03</span>
-          <h3>على طريقتك</h3>
-          <p>قطع تكمّل شخصيتك، مش تغيّرها.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<section class="steps"><div class="wrap">
+  <span class="chap reveal">HOW WE TELL IT</span>
+  <h2 class="sec-t reveal">إزاي بنحكي حكايتنا</h2>
+  <div class="srow reveal"><span class="n">01</span><div><h3>نبدأ من الجذور</h3><p>رمز مصري قديم، بخط دقيق دهبي.</p></div></div>
+  <div class="srow reveal"><span class="n">02</span><div><h3>نقصّها بروح النهارده</h3><p>قصّات عصرية تلبسيها في أي يوم.</p></div></div>
+  <div class="srow reveal"><span class="n">03</span><div><h3>نسيبها ليكي تكمليها</h3><p>القطعة بتخلص بإنتِ.</p></div></div>
+</div></section>
 
-  <!-- Newsletter -->
-  <section class="newsletter">
-    <div class="container news-in">
-      <div>
-        <h2 class="display">خليكي من أول الحكاية</h2>
-        <p>سجلي إيميلك عشان تعرفي جديد ست والمجموعات الجاية.</p>
-      </div>
-      <div>
-        <form class="news-form" data-demo>
-          <input type="email" placeholder="بريدك الإلكتروني" aria-label="بريدك الإلكتروني">
-          <button class="btn" type="submit">اشتركي</button>
-        </form>
-        <p class="news-note">بالاشتراك بتوافقي على سياسة الخصوصية.</p>
-      </div>
-    </div>
-  </section>
+<section class="fin">
+  <div class="big2 reveal">الفصل الأول<br>جاهز ليكي.</div>
+  <a class="reveal" href="shop.html">شوفي القطع</a>
+</section>
 </main>
 
 <footer class="site-footer">
@@ -217,6 +191,6 @@
   </div>
 </footer>
 
-<script defer src="assets/js/pics1.js"></script><script defer src="assets/js/pics2.js"></script><script defer src="assets/js/pics3.js"></script><script defer src="assets/js/imgs.js"></script><script defer src="assets/js/main.js"></script>
+<script defer src="assets/js/imgs.js"></script><script defer src="assets/js/main.js"></script>
 </body>
 </html>
