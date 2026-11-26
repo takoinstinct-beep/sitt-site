@@ -578,3 +578,9 @@ button.dot::after { content: ''; position: absolute; inset: -9px; }
 [hidden]{display:none!important}
 @media(max-width:700px){.head-flex{display:block!important}.side-note{display:none}.page-head h1{font-size:40px}html,body{overflow-x:hidden}}
 .tees-soon .news-form{flex-direction:column;gap:10px;align-items:stretch}.tees-soon .news-form .btn{width:100%}
+.pay-list{display:grid;gap:10px}
+.pay-row{display:flex;align-items:center;gap:12px;padding:16px 18px;border:1px solid var(--line);background:var(--white);cursor:pointer}
+.pay-row.on{border-color:var(--maroon)}
+.pay-row.off{opacity:.55;cursor:not-allowed}
+.pay-row em{margin-inline-start:auto;font-style:normal;font-size:12px;color:var(--muted)}
+.co-success{text-align:center;padding:30px 0}
