@@ -20,7 +20,7 @@
       b.addEventListener('click',function(){
         document.querySelectorAll('.dots button').forEach(function(x){x.classList.remove('on')});
         b.classList.add('on');pn.textContent=b.dataset.n;
-        root.setAttribute('data-theme',map[b.dataset.n]||'burgundy');
+        root.setAttribute('data-theme',map[b.dataset.n]||'burgundy');try{localStorage.setItem('sitt-theme',map[b.dataset.n]||'burgundy')}catch(e){}[].forEach.call(document.querySelectorAll('.tsw .pn button'),function(x){x.className=x.getAttribute('aria-label')===b.dataset.n?'on':''});
         try{var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',b.dataset.bg)}catch(e){}
       });
     });
