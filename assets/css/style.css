@@ -607,11 +607,12 @@ button.dot::after { content: ''; position: absolute; inset: -9px; }
 .how{padding:0 20px;margin:0 0 18px;line-height:2;color:#5c5248}
 .note{color:var(--muted);font-size:14px;line-height:1.9}
 .tbl-wrap{overflow-x:auto;border:1px solid #cba85e88}
-.size-tbl{width:100%;border-collapse:collapse;text-align:center;min-width:420px}
-.size-tbl th,.size-tbl td{padding:14px 8px;border-bottom:1px solid #e5d9c4;font-size:15px}
+.size-tbl{width:100%;border-collapse:collapse;text-align:center;min-width:0}
+.size-tbl th,.size-tbl td{padding:12px 4px;border-bottom:1px solid #e5d9c4;font-size:13px}
 .size-tbl thead th{background:var(--maroon);color:var(--cream);font-weight:600;font-size:13px}
 .size-tbl tbody th{color:var(--maroon);font-family:var(--font-latin);font-size:17px}
 .contact-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
 .c-card{display:flex;flex-direction:column;align-items:center;gap:8px;padding:34px 16px;border:1px solid #cba85e88;text-decoration:none;color:var(--maroon);background:#fbf6ec}
 .c-sym{font-size:34px;color:#b8923f}
 @media(max-width:700px){.info-hero{padding:48px 0 40px}.info-hero h1{font-size:36px}.contact-cards{grid-template-columns:1fr}}
+.size-tbl thead th{font-size:11px;line-height:1.4}
