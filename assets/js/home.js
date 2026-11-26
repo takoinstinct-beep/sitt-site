@@ -14,15 +14,16 @@
       c.addEventListener('click',function(){c.classList.toggle('flip')});
       c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){c.classList.toggle('flip')}});
     });
-    var pal=document.getElementById('pal'),pn=document.getElementById('pn');
+    var pn=document.getElementById('pn'),root=document.documentElement;
+    var map={'بوردو':'burgundy','أسود':'black','كريمي':'cream'};
     document.querySelectorAll('.dots button').forEach(function(b){
       b.addEventListener('click',function(){
         document.querySelectorAll('.dots button').forEach(function(x){x.classList.remove('on')});
         b.classList.add('on');pn.textContent=b.dataset.n;
-        pal.style.setProperty('--pbg',b.dataset.bg);pal.style.setProperty('--pfg',b.dataset.fg);pal.style.setProperty('--pac',b.dataset.ac);
+        root.setAttribute('data-theme',map[b.dataset.n]||'burgundy');
+        try{var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',b.dataset.bg)}catch(e){}
       });
     });
-    pal.style.setProperty('--pbg','#662c38');pal.style.setProperty('--pfg','#f4eee3');pal.style.setProperty('--pac','#e3c98e');
   }
   if(document.readyState!=='loading')go();else document.addEventListener('DOMContentLoaded',go);
 })();
