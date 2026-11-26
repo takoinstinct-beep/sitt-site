@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شميز ملكة — ست SITT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="product">
+
+<div class="topbar">من جذور ملكية... لحكايتك إنتِ</div>
+<header class="site-header">
+  <div class="container header-in">
+    <a class="brand" href="index.html">
+      <span class="brand-word">SITT<small>ســت</small></span>
+      <img class="brand-emblem" src="assets/img/emblem.jpg" alt="شعار ست">
+    </a>
+    <nav class="main-nav">
+      <a href="shop.html">تسوقي الكل</a>
+      <a href="shirts.html">الشيميزات</a>
+      <a href="tees.html">التيشيرتات</a>
+      <a href="story.html">حكايتنا</a>
+    </nav>
+    <div class="header-actions">
+      <span class="lang">EN</span>
+      <a class="icon-btn" href="cart.html" aria-label="الحقيبة">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 8h14l-1.2 12.2a1.8 1.8 0 0 1-1.8 1.8H8a1.8 1.8 0 0 1-1.8-1.8L5 8z"/><path d="M8.5 10V6.5a3.5 3.5 0 0 1 7 0V10"/></svg>
+        <span class="bag-count"></span>
+      </a>
+      <button class="icon-btn" aria-label="حسابي">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="بحث">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <nav class="crumbs"><a href="index.html">الرئيسية</a> / <a href="shirts.html">الشيميزات</a> / شميز ملكة</nav>
+
+    <section class="product-main">
+      <div class="p-gallery">
+        <div class="gallery-main">
+          <img id="gallery-main-img" src="assets/img/malika-main.jpg" alt="شميز ملكة">
+        </div>
+        <div class="gallery-thumbs">
+          <button class="active" data-src="assets/img/malika-main.jpg"><img src="assets/img/malika-main.jpg" alt="القطعة على الشماعة"></button>
+          <button data-src="assets/img/wall-model.jpg"><img src="assets/img/wall-model.jpg" alt="الشميز على الموديل"></button>
+          <button data-src="assets/img/hero-model.jpg"><img src="assets/img/hero-model.jpg" alt="الشميز بإطلالة كاملة"></button>
+        </div>
+      </div>
+
+      <div class="p-info">
+        <span class="eyebrow-latin">SITT / THE FIRST CHAPTER</span>
+        <h1 class="display">شميز ملكة</h1>
+        <p class="p-price">٩٥٠ ج.م</p>
+        <p class="p-desc">حضور ملكي من غير تكلّف. شميز أوف وايت بتفاصيل تطريز مستوحاة من جذورنا، تلبس بطريقتك وتحكي عنك.</p>
+
+        <div class="opt-row">
+          <div class="opt-head"><span>اللون: <span id="color-label">أوف وايت</span></span></div>
+          <div class="swatches">
+            <button class="swatch" data-color="بني غامق" style="--c:#33291f" aria-label="بني غامق"></button>
+            <button class="swatch" data-color="بيج" style="--c:#b9a77f" aria-label="بيج"></button>
+            <button class="swatch on" data-color="أوف وايت" style="--c:#ece3cf" aria-label="أوف وايت"></button>
+          </div>
+        </div>
+
+        <div class="opt-row">
+          <div class="opt-head">
+            <span>المقاس: <span id="size-label">M</span></span>
+            <span class="guide">دليل المقاسات −</span>
+          </div>
+          <div class="sizes">
+            <button class="size-btn" data-size="XS">XS</button>
+            <button class="size-btn" data-size="S">S</button>
+            <button class="size-btn on" data-size="M">M</button>
+            <button class="size-btn" data-size="L">L</button>
+            <button class="size-btn" data-size="XL">XL</button>
+          </div>
+        </div>
+
+        <div class="buy-row">
+          <button class="btn" id="add-to-cart">أضيفي للحقيبة <span class="arr">−</span></button>
+          <span class="qty">
+            <button data-pqty="-1" aria-label="أقل">−</button>
+            <span id="p-qty">١</span>
+            <button data-pqty="1" aria-label="أكتر">+</button>
+          </span>
+        </div>
+
+        <button class="fav-link" id="fav-toggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20.5s-8-4.9-8-11a4.6 4.6 0 0 1 8-3.1 4.6 4.6 0 0 1 8 3.1c0 6.1-8 11-8 11z"/></svg>
+          اضيفيها في المفضلة
+        </button>
+
+        <div class="accordion">
+          <button class="acc-head">الشحن والاستبدال <span class="pm">−</span></button>
+          <div class="acc-body">
+            تكلفة ومدة التوصيل بتتحدد حسب عنوانك. لو محتاجة مساعدة في المقاس، تواصلي معانا قبل الطلب.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p-details">
+      <div>
+        <h3>تفاصيل بتقول كتير.</h3>
+        <p>قصّة مريحة، ياقة كلاسيكية وأزرار بلون دهبي. تطريز عند الأكمام يكمّل الحكاية من غير ما يطغى على بساطتها.</p>
+      </div>
+      <div>
+        <h3>إزاي تحافظي عليها؟</h3>
+        <p>اتبعي تعليمات العناية المرفقة بالقطعة. تجنّبي الكي المباشر على التطريز، واحفظيها بعناية مناسبة.</p>
+      </div>
+    </section>
+
+    <section class="related">
+      <h2 class="display">قطع تكمّل حكايتك</h2>
+      <div class="related-grid">
+        <div class="promo-card">
+          <h3>كل يوم، حضور بيحكيك.</h3>
+          <p>نفس الجذور، وحكايات مختلفة. اكتشفي باقي الفصل الأول.</p>
+          <a class="btn" href="shop.html">تسوقي الكل <span class="arr">←</span></a>
+        </div>
+        <article class="card" data-id="nil">
+          <a class="card-img" href="product.html">
+            <img src="assets/img/nil.jpg" alt="شميز نيل">
+            <button class="wish-heart" data-wish="nil" aria-label="أضيفي للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20.5s-8-4.9-8-11a4.6 4.6 0 0 1 8-3.1 4.6 4.6 0 0 1 8 3.1c0 6.1-8 11-8 11z"/></svg></button>
+          </a>
+          <h3 class="card-name">شميز نيل</h3>
+          <p class="card-price">٩٥٠ ج.م</p>
+          <div class="dots"><i class="dot on" style="--c:#33291f"></i><i class="dot" style="--c:#b9a77f"></i><i class="dot" style="--c:#e8dfca"></i></div>
+        </article>
+        <article class="card" data-id="shams">
+          <a class="card-img" href="product.html">
+            <img src="assets/img/shams.jpg" alt="شميز شمس">
+            <button class="wish-heart" data-wish="shams" aria-label="أضيفي للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20.5s-8-4.9-8-11a4.6 4.6 0 0 1 8-3.1 4.6 4.6 0 0 1 8 3.1c0 6.1-8 11-8 11z"/></svg></button>
+          </a>
+          <h3 class="card-name">شميز شمس</h3>
+          <p class="card-price">٦٥٠ ج.م</p>
+          <div class="dots"><i class="dot on" style="--c:#33291f"></i><i class="dot" style="--c:#b9a77f"></i><i class="dot" style="--c:#e8dfca"></i></div>
+        </article>
+        <article class="card" data-id="athr">
+          <a class="card-img" href="product.html">
+            <img src="assets/img/athr.jpg" alt="شميز الأثر">
+            <button class="wish-heart" data-wish="athr" aria-label="أضيفي للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20.5s-8-4.9-8-11a4.6 4.6 0 0 1 8-3.1 4.6 4.6 0 0 1 8 3.1c0 6.1-8 11-8 11z"/></svg></button>
+          </a>
+          <h3 class="card-name">شميز الأثر</h3>
+          <p class="card-price">٦٥٠ ج.م</p>
+          <div class="dots"><i class="dot on" style="--c:#33291f"></i><i class="dot" style="--c:#b9a77f"></i><i class="dot" style="--c:#e8dfca"></i></div>
+        </article>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <div class="f-logo">SITT</div>
+      <p class="f-tag">ست، ملكة بطبعك.</p>
+      <p class="f-sub">من إلهام مصر، لكل ست.</p>
+    </div>
+    <div class="f-col">
+      <h4>اكتشفي ست</h4>
+      <a href="shirts.html">الشيميزات</a>
+      <a href="tees.html">التيشيرتات</a>
+      <a href="story.html">حكايتنا</a>
+    </div>
+    <div class="f-col">
+      <h4>نقدر نساعدك؟</h4>
+      <a href="#">دليل المقاسات</a>
+      <a href="#">الشحن والاستبدال</a>
+      <a href="#">تواصلي معانا</a>
+    </div>
+    <div class="f-col">
+      <h4>خليكي قريبة</h4>
+      <a class="soc" href="#">Instagram <span class="arr">↗</span></a>
+      <a class="soc" href="#">TikTok <span class="arr">↗</span></a>
+      <a class="soc" href="#">Facebook <span class="arr">↗</span></a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>جميع الحقوق محفوظة © <span class="latin">SITT <span data-year>2026</span></span></p>
+    <p>سياسة الخصوصية / الشروط والأحكام</p>
+  </div>
+</footer>
+
+<script src="assets/js/imgs.js"></script><script src="assets/js/main.js"></script>
+</body>
+</html>
