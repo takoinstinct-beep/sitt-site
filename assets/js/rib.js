@@ -1,5 +1,5 @@
 (function(){
-  var el=document.querySelector('.rib div'); if(!el) return;
+  var el=document.querySelector('.rib div'); if(!el) return; el.parentNode.style.direction='ltr';
   el.style.animation='none'; el.style.willChange='transform';
   var x=0, last=0, paused=false, speed=28; // px per second, gentle
   var one=0;
