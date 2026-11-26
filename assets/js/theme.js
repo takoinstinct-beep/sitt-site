@@ -1,5 +1,5 @@
 (function(){
-  var K='sitt-theme',d=document,r=d.documentElement,T={burgundy:['بوردو','#662c38'],black:['أسود','#1d1a19'],cream:['كريمي','#ece2d2']};
+  var K='sitt-theme',d=document,r=d.documentElement,T={burgundy:['برجندي','#662c38'],black:['أسود','#1d1a19'],cream:['كريمي','#ece2d2']};
   var s;try{s=localStorage.getItem(K)}catch(e){}
   if(!T[s])s=r.getAttribute('data-theme-default')||'cream';
   function apply(t){r.setAttribute('data-theme',t);try{var m=d.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',T[t][1])}catch(e){}}
