@@ -15,7 +15,7 @@
       c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){c.classList.toggle('flip')}});
     });
     var pn=document.getElementById('pn'),root=document.documentElement;
-    var map={'بوردو':'burgundy','أسود':'black','كريمي':'cream'};
+    var map={'برجندي':'burgundy','أسود':'black','كريمي':'cream'};
     document.querySelectorAll('.dots button').forEach(function(b){
       b.addEventListener('click',function(){
         document.querySelectorAll('.dots button').forEach(function(x){x.classList.remove('on')});
