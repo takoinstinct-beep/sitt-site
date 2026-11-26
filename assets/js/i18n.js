@@ -178,6 +178,7 @@ var CAT=[
  {u:'product.html?p=oud',ar:'بلوزة العود الذهبي',en:'Golden Oud Blouse',p:950,k:'بلوزة عود ذهبي بوردو blouse oud golden burgundy'},
  {u:'product.html?p=shams',ar:'بلوزة جرس اللوتس',en:'Lotus Bell Blouse',p:650,k:'بلوزة جرس لوتس بوردو blouse lotus bell flare burgundy'}
 ];
+(window.SITT_CAT||[]).forEach(function(p){var o={u:'product.html?p='+p.id,ar:p.name,en:p.nameEn||p.name,p:p.price,k:(p.name+' '+(p.nameEn||'')).toLowerCase()},f=-1;CAT.forEach(function(x,n){if(x.u===o.u)f=n});if(f>-1)CAT[f]=Object.assign(CAT[f],{ar:o.ar,en:o.en,p:o.p});else CAT.push(o)});
 function norm(s){return String(s).toLowerCase().replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/ّ/g,'').trim()}
 function money(n){return EN?'EGP '+n.toLocaleString('en-US'):String(n.toLocaleString('en-US')).replace(/\d/g,function(c){return AD[c]}).replace(/,/g,'٬')+' ج.م'}
 var ov=null;
