@@ -303,7 +303,8 @@
         e.preventDefault();
         const input = f.querySelector('input[type="email"], input[type="text"]');
         if (input && input.value.trim()) {
-          toast('تمام! هنوصلك أول ما يكون عندنا جديد.');
+          const v = input.value.trim();
+          fetch((window.SITT_API || '') + '/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: v, source: 'form' }) }).then((r) => toast(r.ok ? 'تمام! هنوصلك أول ما يكون عندنا جديد.' : 'الإيميل مش مظبوط')).catch(() => toast('مشكلة في الاتصال، جربي تاني'));
           input.value = '';
         } else if (input) {
           toast('اكتبي بريدك الإلكتروني الأول');
