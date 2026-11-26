@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"></noscript>
-<link rel="stylesheet" href="assets/css/style.css?v=3">
+<link rel="stylesheet" href="assets/css/style.css?v=4">
 </head>
 <body data-page="shirts">
 
@@ -21,7 +21,7 @@
     <nav class="main-nav">
       <a href="shop.html">تسوقي الكل</a>
       <a href="shirts.html" class="active">الشيميزات</a>
-      <a href="tees.html">التيشيرتات</a>
+      <a href="shop.html#tees" data-tees>التيشيرتات</a>
       <a href="story.html">حكايتنا</a>
     </nav>
     <div class="header-actions">
@@ -41,13 +41,21 @@
 </header>
 
 <main>
-  <section class="page-banner">
-    <div class="b-panel">
+  <section class="cat-head">
+    <div class="cat-bord"></div>
+    <div class="container cat-in">
       <nav class="crumb" style="font-size:13px;color:var(--muted)"><a href="index.html">الرئيسية</a> / الشيميزات</nav>
+      <span class="eyebrow-latin">SITT / SHIRTS</span>
       <h1 class="display">شميز...<br>وحكاية حضور.</h1>
+      <div class="cat-syms" aria-hidden="true">
+      <svg viewBox="0 0 64 64"><ellipse cx="32" cy="16" rx="9" ry="12"/><path d="M32 28v32M16 38h32"/></svg>
+      <svg viewBox="0 0 64 64"><path d="M32 54c-14-6-20-18-20-30 10 2 16 8 20 16 4-8 10-14 20-16 0 12-6 24-20 30z"/><path d="M32 54V30"/></svg>
+      <svg viewBox="0 0 64 64"><ellipse cx="32" cy="36" rx="14" ry="18"/><path d="M32 18v36M18 28l-8-6M46 28l8-6M18 40l-8 4M46 40l8 4M26 12l-3-6M38 12l3-6"/></svg>
+      <svg viewBox="0 0 64 64"><path d="M6 30c8-12 18-16 26-16s18 4 26 16c-8 12-18 16-26 16S14 42 6 30z"/><circle cx="32" cy="30" r="7"/></svg>
+      </div>
       <p>قطع أساسية، بحضور استثنائي. تفاصيل صغيرة بتقول كتير، وإطلالة تفضّل شبهك.</p>
     </div>
-    <div class="b-media"><img src="assets/img/wall-model.jpg" alt="شيميزات ست"></div>
+    <div class="cat-bord"></div>
   </section>
 
   <section class="section" style="padding-top: 40px">
@@ -56,7 +64,7 @@
         <div class="filter-chips">
           <a href="shop.html">الكل</a>
           <a href="shirts.html" class="active">الشيميزات</a>
-          <a href="tees.html">التيشيرتات</a>
+          <a href="shop.html#tees" data-tees>التيشيرتات</a>
         </div>
         <div class="filter-attrs">
           <button class="chip">اللون ١ <span class="car">▾</span></button>
@@ -68,6 +76,12 @@
         </div>
       </div>
 
+      <div class="tees-soon" id="tees-soon" hidden>
+        <div class="cat-syms" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 54c-14-6-20-18-20-30 10 2 16 8 20 16 4-8 10-14 20-16 0 12-6 24-20 30z"/><path d="M32 54V30"/></svg></div>
+        <h2 class="display">التيشيرتات... قريبًا</h2>
+        <p>الفصل الجاي من حكايتنا. سيبي بريدك وهنقولك أول ما ينزل.</p>
+        <form class="news-form" data-demo><input type="email" placeholder="بريدك الإلكتروني" aria-label="بريدك الإلكتروني"><button class="btn" type="submit">بلغوني</button></form>
+      </div>
       <div class="grid-products">
         <article class="card" data-id="malika">
           <a class="card-img" href="product.html?p=malika">
@@ -130,7 +144,7 @@
     <div class="f-col">
       <h4>اكتشفي ست</h4>
       <a href="shirts.html">الشيميزات</a>
-      <a href="tees.html">التيشيرتات</a>
+      <a href="shop.html#tees" data-tees>التيشيرتات</a>
       <a href="story.html">حكايتنا</a>
     </div>
     <div class="f-col">
@@ -152,6 +166,6 @@
   </div>
 </footer>
 
-<script defer src="assets/js/pics1.js"></script><script defer src="assets/js/pics2.js"></script><script defer src="assets/js/pics3.js"></script><script defer src="assets/js/imgs.js?v=4"></script><script defer src="assets/js/cards.js"></script><script defer src="assets/js/main.js?v=4"></script>
+<script defer src="assets/js/pics1.js"></script><script defer src="assets/js/pics2.js"></script><script defer src="assets/js/pics3.js"></script><script defer src="assets/js/imgs.js?v=4"></script><script defer src="assets/js/tabs.js"></script><script defer src="assets/js/cards.js"></script><script defer src="assets/js/main.js?v=4"></script>
 </body>
 </html>
