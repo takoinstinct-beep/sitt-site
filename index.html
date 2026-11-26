@@ -41,7 +41,7 @@
 .syms{padding:70px 0;background:var(--beige-soft)}
 .sgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 @media(min-width:760px){.sgrid{grid-template-columns:repeat(4,1fr)}}
-.sc{perspective:700px;height:210px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sc{touch-action:manipulation;perspective:700px;height:210px;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .sc .in{position:relative;width:100%;height:100%;transition:transform .7s;transform-style:preserve-3d}
 .sc.flip .in{transform:rotateY(180deg)}
 .sc .f,.sc .b{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;text-align:center;border:1px solid var(--line)}
@@ -53,7 +53,7 @@
 .pal .sec-t{color:var(--pac,var(--maroon))}.pal .sec-s{margin-inline:auto;color:inherit;opacity:.75}
 .pal .name{font-family:var(--font-display);font-size:clamp(34px,8vw,64px);margin:14px 0 24px;color:var(--pac,var(--maroon))}
 .dots{display:flex;gap:18px;justify-content:center}
-.dots button{width:58px;height:58px;border-radius:50%;border:2px solid var(--g);transition:transform .3s}
+.dots button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;width:58px;height:58px;border-radius:50%;border:2px solid var(--g);transition:transform .3s}
 .dots button.on{transform:scale(1.18);box-shadow:0 0 0 4px rgba(185,155,95,.35)}
 .steps{padding:80px 0}
 .srow{display:flex;gap:18px;align-items:baseline;padding:22px 0;border-top:1px solid var(--line)}
@@ -191,6 +191,6 @@
   </div>
 </footer>
 
-<script defer src="assets/js/imgs.js"></script><script defer src="assets/js/main.js"></script>
+<script defer src="assets/js/imgs.js"></script><script defer src="assets/js/main.js?v=3"></script><script defer src="assets/js/home.js"></script>
 </body>
 </html>
