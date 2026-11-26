@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<title>ست — إنشاء حساب</title>
+<link rel="stylesheet" href="../assets/css/style.css?v=10">
+<style>
+body{background:#f5efe6;color:#3a2a2a}
+.j{max-width:380px;margin:40px auto;padding:0 18px;display:grid;gap:12px}
+.j h1{font-size:26px;color:#6b2a37;margin:0}
+.j input{padding:12px;border:1px solid #cba85e;background:#fff;font:inherit;font-size:16px;text-align:left;direction:ltr}
+.j button{padding:12px;border:0;background:#6b2a37;color:#f5efe6;font:inherit;font-size:16px;cursor:pointer}
+.m{font-size:14px;color:#a33;min-height:20px}.ok{color:#2a6b3a}
+</style>
+</head>
+<body>
+<div class="j" id="j"><h1>أهلاً بيكي في ست</h1><div id="who">جاري التحقق…</div></div>
+<script>
+(function(){
+var API='https://sitt-site-eosin.vercel.app',j=document.getElementById('j'),who=document.getElementById('who');
+var tok=(location.hash.match(/t=([0-9a-f]{64})/)||[])[1];
+try{history.replaceState(null,'',location.pathname)}catch(e){}
+function post(a,b){return fetch(API+'/api/admin?action='+a,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(function(r){return r.json().then(function(d){return{s:r.status,d:d}})})}
+function bad(){who.innerHTML='<div class="m">الرابط ده مش شغال أو انتهى. اطلبي رابط جديد.</div>'}
+if(!tok){bad();return}
+post('inviteinfo',{token:tok}).then(function(r){
+  if(r.s!==200){bad();return}
+  who.innerHTML='<div>الحساب: <b dir="ltr"></b></div><input id="p1" type="password" autocomplete="new-password" placeholder="كلمة سر (10 حروف على الأقل)"><input id="p2" type="password" autocomplete="new-password" placeholder="أعيدي كتابتها"><button id="go">حفظ كلمة السر</button><div class="m" id="m"></div>';
+  who.querySelector('b').textContent=r.d.email;
+  document.getElementById('go').onclick=function(){
+    var a=document.getElementById('p1').value,b=document.getElementById('p2').value,m=document.getElementById('m');
+    if(a.length<10){m.textContent='كلمة السر لازم تكون 10 حروف على الأقل';return}
+    if(a!==b){m.textContent='الكلمتين مش متطابقتين';return}
+    post('accept',{token:tok,password:a}).then(function(x){
+      if(x.s===200){who.innerHTML='<div class="m ok">تم. كلمة السر اتحفظت. الرابط اتقفل ومش هيشتغل تاني. اطلبي من عبدالله رابط لوحة التحكم.</div>'}
+      else m.textContent=x.d.error==='weak_password'?'كلمة السر ضعيفة':'الرابط انتهى. اطلبي رابط جديد.';
+    });
+  };
+});
+})();
+</script>
+</body>
+</html>
