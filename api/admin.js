@@ -1,4 +1,4 @@
-const { admin, authed, login, setPassword } = require('../lib/store');
+const { admin, authed, login, setPassword, createInvite, inviteInfo, acceptInvite } = require('../lib/store');
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -12,6 +12,9 @@ module.exports = async (req, res) => {
     let out;
     if (req.method === 'POST' && act === 'login') out = await login(req, body);
     else if (req.method === 'POST' && act === 'setpw') out = await setPassword(body);
+    else if (req.method === 'POST' && act === 'invite') out = await createInvite(body);
+    else if (req.method === 'POST' && act === 'inviteinfo') out = await inviteInfo(req, body);
+    else if (req.method === 'POST' && act === 'accept') out = await acceptInvite(req, body);
     else if (!authed(req)) out = { status: 401, json: { error: 'unauthorized' } };
     else out = await admin(req);
     res.status(out.status).json(out.json);
