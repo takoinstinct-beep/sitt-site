@@ -77,6 +77,8 @@ var P=[
 var D={},W=[];P.forEach(function(p){D[p[0]]=p[1]});
 [["ج.م","EGP"],["المقاس","Size"],["الكمية","Qty"],["بوردو","Burgundy"],["أسود","Black"],["كريمي","Cream"],["الإجمالي","Total"],["الدفع عند الاستلام","cash on delivery"],["شميز اللفّة الذهبية","Golden Wrap Shirt"],["بلوزة العود الذهبي","Golden Oud Blouse"],["بلوزة جرس اللوتس","Lotus Bell Blouse"],["طلب","Order"],["ست","SITT"],["،",","],["←","→"],["الشروط","terms"],["وأوافق على","and I agree to"]].forEach(function(p){W.push(p)});
 var AD='٠١٢٣٤٥٦٧٨٩';
+window.SITT_I18N_ADD=function(ps){ps.forEach(function(p){D[p[0]]=p[1]})};
+(window.SITT_I18N_Q||[]).forEach(function(ps){window.SITT_I18N_ADD(ps)});
 function digits(s){return s.replace(/[٠-٩]/g,function(c){return AD.indexOf(c)}).replace(/٬/g,',')}
 var ARX=/[\u0600-\u06FF]/;
 function tr(s){
