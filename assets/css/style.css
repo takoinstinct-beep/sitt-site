@@ -557,7 +557,7 @@ input, select, textarea { font-family: inherit; }
 .f-mark{width:86px;height:auto;margin-bottom:14px}
 .brand-emblem{width:auto;height:46px}
 
-.card-img img { object-fit: contain; background: #fff; }
+.card-img img { object-fit: contain; background: transparent; }
 button.dot { padding: 0; cursor: pointer; position: relative; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 button.dot::after { content: ''; position: absolute; inset: -9px; }
 .dots { gap: 12px; }
