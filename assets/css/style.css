@@ -585,10 +585,10 @@ button.dot::after { content: ''; position: absolute; inset: -9px; }
 .pay-row em{margin-inline-start:auto;font-style:normal;font-size:12px;color:var(--muted)}
 .co-success{text-align:center;padding:30px 0}
 
-.sym-art{background:#5a1420;padding:28px;max-width:100%;display:flex;justify-content:center}
-.sym-art svg{width:100%;max-width:420px;height:auto;display:block}
-.story-hero .logo-card{background:#5a1420;border:1px solid #cba85e55;display:flex;align-items:center;justify-content:center;padding:44px 20px;min-width:0}
-.story-hero .logo-card img{width:auto;max-width:70%;height:auto;max-height:380px;margin:0 auto;display:block}
+.sym-art{background:#ebe0bd;border:1px solid #cba85e;padding:0;max-width:100%;display:block;overflow:hidden}
+.sym-art img,.page-banner .b-media .sym-art img{width:100%;height:auto;max-height:none;max-width:none;display:block;aspect-ratio:1/1;object-fit:cover}
+.story-hero .logo-card{background:#ebe0bd;border:1px solid #cba85e;display:flex;align-items:center;justify-content:center;padding:0;min-width:0;overflow:hidden}
+.story-hero .logo-card img{width:100%;max-width:none;height:auto;max-height:none;margin:0;display:block;aspect-ratio:1/1}
 .roots-in{display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:center}
 .story-hero .in>*,.roots-in>*{min-width:0}
 .story-hero,.story-roots{overflow-x:clip}
