@@ -36,7 +36,7 @@
     var err=document.getElementById('co-err');
     var cart=rd('sitt_cart',[]).filter(function(i){return CAT[i.id]});
     var bad=[];
-    var email=val('email'),fname=val('fname'),lname=val('lname'),phone=val('phone').replace(/[\s-]/g,'').replace(/^\+?20/,'0'),gov=val('gov'),area=val('area'),addr=val('addr');
+    var email=val('email'),fname=val('fname'),lname=val('lname'),phone=val('phone').replace(/[\s-]/g,'').replace(/^\+?20/,'0'),gov=val('gov'),area=val('area'),addr=val('addr');var otherTxt=val('area-other');if(area==='أخرى')area=otherTxt?('أخرى: '+otherTxt):'';
     var checks={email:/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email),fname:!!fname,lname:!!lname,phone:/^01[0125]\d{8}$/.test(phone),gov:!!gov,area:!!area,addr:addr.length>5};
     Object.keys(checks).forEach(function(k){mark(k,!checks[k]);if(!checks[k])bad.push(k)});
     var terms=form.querySelector('.terms input');if(terms&&!terms.checked)bad.push('terms');
