@@ -18,5 +18,7 @@ function fill(){
   (A[g]||[]).forEach(function(p){var o=document.createElement('option');o.value=p[0];o.textContent=p[0];area.appendChild(o)});
   area.selectedIndex=0;
 }
-gov.addEventListener('change',fill);fill();
+var ow=document.getElementById('area-other-wrap'),oi=document.getElementById('area-other');
+function tog(){var on=area.value==='أخرى';if(ow)ow.style.display=on?'':'none';if(oi){oi.required=on;if(!on)oi.value=''}}
+gov.addEventListener('change',function(){fill();tog()});area.addEventListener('change',tog);fill();tog();
 })();
