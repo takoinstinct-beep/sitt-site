@@ -4,10 +4,9 @@
 
   /* ---------- catalog ---------- */
   const PRODUCTS = {
-    malika: { id: 'malika', name: 'شميز ملكة', price: 950, img: 'assets/img/malika.jpg', color: 'أوف وايت', isNew: true, url: 'product.html' },
-    nil:    { id: 'nil',    name: 'شميز نيل',  price: 950, img: 'assets/img/nil.jpg',    color: 'أسود',      url: 'product.html' },
-    shams:  { id: 'shams',  name: 'شميز شمس',  price: 650, img: 'assets/img/shams.jpg',  color: 'بيج',       url: 'product.html' },
-    athr:   { id: 'athr',   name: 'شميز الأثر', price: 650, img: 'assets/img/athr.jpg',   color: 'أسود',      url: 'product.html' }
+    malika: { id: 'malika', name: 'شميز ملكة', price: 950, img: 'assets/img/shirt-burgundy.jpg', color: 'بوردو', isNew: true, url: 'product.html?p=malika' },
+    nil:    { id: 'nil',    name: 'شميز نيل',  price: 950, img: 'assets/img/shirt-black.jpg',    color: 'أسود',      url: 'product.html?p=malika' },
+    shams:  { id: 'shams',  name: 'بلوزة شمس', price: 650, img: 'assets/img/flare-burgundy.jpg', color: 'بوردو',     url: 'product.html?p=shams' }
   };
   const DOTS = ['#33291f', '#b9a77f', '#e8dfca'];
 
@@ -18,8 +17,8 @@
   // Seed demo state once so الحقيبة/المفضلة match the approved designs on first visit.
   if (!localStorage.getItem('sitt_seeded')) {
     write('sitt_cart', [
-      { id: 'malika', size: 'M', color: 'أوف وايت', qty: 1 },
-      { id: 'shams', size: 'S', color: 'بيج', qty: 1 }
+      { id: 'malika', size: 'M', color: 'بوردو', qty: 1 },
+      { id: 'shams', size: 'S', color: 'بوردو', qty: 1 }
     ]);
     write('sitt_wish', ['nil', 'malika']);
     localStorage.setItem('sitt_seeded', '1');
@@ -188,6 +187,26 @@
 
   /* ---------- product page ---------- */
   function bindProductPage() {
+    const VARS = {
+      malika: { name: 'شميز ملكة', price: '٩٥٠ ج.م', pre: 'shirt', desc: 'حضور ملكي من غير تكلّف. شميز بقصّة ملفوفة وتفاصيل مطرّزة بالذهبي مستوحاة من جذورنا، تلبس بطريقتك وتحكي عنك.' },
+      shams: { name: 'بلوزة شمس', price: '٦٥٠ ج.م', pre: 'flare', desc: 'بلوزة بأكمام واسعة وأزرار برموز مصرية، وتطريز دقيق على الأكمام والياقة. أنوثة هادية بروح حكايتنا.' }
+    };
+    const COLS = [['burgundy', 'بوردو'], ['black', 'أسود'], ['cream', 'كريمي']];
+    const PID = (new URLSearchParams(location.search).get('p') === 'shams') ? 'shams' : 'malika';
+    const V = VARS[PID];
+    const imgOf = (c) => 'assets/img/' + V.pre + '-' + c + '.jpg';
+    if (document.getElementById('gallery-main-img')) {
+      document.title = V.name + ' — ست SITT';
+      const h1 = document.querySelector('h1.display'); if (h1) h1.textContent = V.name;
+      const pp = document.querySelector('.p-price'); if (pp) pp.textContent = V.price;
+      const pd = document.querySelector('.p-desc'); if (pd) pd.textContent = V.desc;
+      const cr = document.querySelector('.crumbs'); if (cr) cr.lastChild.textContent = ' / ' + V.name;
+      document.getElementById('gallery-main-img').src = imgOf('burgundy');
+      const th = document.querySelector('.gallery-thumbs');
+      if (th) th.innerHTML = COLS.map((c, i) => '<button class="' + (i ? '' : 'active') + '" data-src="' + imgOf(c[0]) + '"><img src="' + imgOf(c[0]) + '" alt="' + V.name + ' ' + c[1] + '"></button>').join('');
+      document.querySelectorAll('.swatch').forEach((s, i) => { s.dataset.img = COLS[i][0]; });
+      document.querySelectorAll('.related-grid .card').forEach((c) => { if (c.dataset.id === PID) c.style.display = 'none'; });
+    }
     const gallMain = document.getElementById('gallery-main-img');
     if (gallMain) {
       document.querySelectorAll('.gallery-thumbs button').forEach((b) => {
@@ -208,7 +227,7 @@
         if (lbl) lbl.textContent = size;
       });
     });
-    let color = 'أوف وايت';
+    let color = 'بوردو';
     document.querySelectorAll('.swatch').forEach((s) => {
       s.addEventListener('click', () => {
         document.querySelectorAll('.swatch').forEach((x) => x.classList.remove('on'));
@@ -216,6 +235,7 @@
         color = s.dataset.color;
         const lbl = document.getElementById('color-label');
         if (lbl) lbl.textContent = color;
+        if (s.dataset.img && gallMain) { gallMain.src = imgOf(s.dataset.img); document.querySelectorAll('.gallery-thumbs button').forEach((x) => x.classList.toggle('active', x.dataset.src.indexOf(s.dataset.img) > -1)); }
       });
     });
     const qtySpan = document.getElementById('p-qty');
@@ -229,20 +249,20 @@
       addBtn.addEventListener('click', () => {
         const qty = parseInt(qtySpan.textContent.replace(/[٠-٩]/g, (d) => AR_DIGITS.indexOf(d)), 10) || 1;
         const c = getCart();
-        const ex = c.find((i) => i.id === 'malika' && i.size === size);
-        if (ex) ex.qty += qty; else c.push({ id: 'malika', size, color, qty });
+        const ex = c.find((i) => i.id === PID && i.size === size);
+        if (ex) ex.qty += qty; else c.push({ id: PID, size, color, qty });
         setCart(c);
         toast('اتضافت للحقيبة');
       });
     }
     const fav = document.getElementById('fav-toggle');
     if (fav) {
-      const paint = () => fav.classList.toggle('saved', getWish().includes('malika'));
+      const paint = () => fav.classList.toggle('saved', getWish().includes(PID));
       paint();
       fav.addEventListener('click', () => {
         let w = getWish();
-        if (w.includes('malika')) { w = w.filter((x) => x !== 'malika'); toast('اتشالت من المفضلة'); }
-        else { w.push('malika'); toast('اتضافت للمفضلة'); }
+        if (w.includes(PID)) { w = w.filter((x) => x !== PID); toast('اتشالت من المفضلة'); }
+        else { w.push(PID); toast('اتضافت للمفضلة'); }
         setWish(w); paint();
       });
     }
