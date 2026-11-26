@@ -10,6 +10,15 @@
     shams:  { id: 'shams',  name: 'بلوزة جرس اللوتس', price: 650, img: 'assets/img/flare-burgundy.jpg', color: 'بوردو',     url: 'product.html?p=shams' }
   };
   const DOTS = ['#33291f', '#b9a77f', '#e8dfca'];
+  const CATP = (window.SITT_CAT || []);
+  const IMGU = (u) => (window.SITT_IMG ? window.SITT_IMG(u) : u);
+  const catImg = (p, key) => (p.images && p.images[key]) ? IMGU(p.images[key]) : (p.pre ? 'assets/img/' + p.pre + '-' + key + '.jpg' : '');
+  CATP.forEach((p) => {
+    const c0 = (p.colors && p.colors[0]) || { key: 'burgundy', name: '' };
+    PRODUCTS[p.id] = Object.assign(PRODUCTS[p.id] || {}, { id: p.id, name: p.name, price: p.price, img: catImg(p, c0.key), color: c0.name, isNew: !!p.isNew, url: 'product.html?p=' + p.id });
+  });
+  if (PRODUCTS.malika && PRODUCTS.nil) { PRODUCTS.nil.name = PRODUCTS.malika.name; PRODUCTS.nil.price = PRODUCTS.malika.price; }
+  const catHas = (id) => !CATP.length || CATP.some((p) => p.id === id);
 
   /* ---------- storage ---------- */
   const read = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v === null || v === undefined ? d : v; } catch (e) { return d; } };
@@ -189,21 +198,34 @@
       oud: { name: 'بلوزة العود الذهبي', price: '٩٥٠ ج.م', pre: 'oud', desc: 'بلوزة بأكمام جرسية واسعة وطباعة ذهبية لآلة العود بأيادٍ عازفة على الصدر، وأزرار برموز مصرية على الأمام.' },
       shams: { name: 'بلوزة جرس اللوتس', price: '٦٥٠ ج.م', pre: 'flare', desc: 'بلوزة بياقة V وأكمام جرسية واسعة، أزرار برموز مصرية، وزهرة لوتس ذهبية على الصدر وتطريز على الياقة.' }
     };
-    const COLS = [['burgundy', 'بوردو'], ['black', 'أسود'], ['cream', 'كريمي']];
+    CATP.forEach((p) => {
+      VARS[p.id] = Object.assign(VARS[p.id] || {}, { name: p.name, price: money(p.price), pre: p.pre || '', cat: p });
+      if (p.desc) VARS[p.id].desc = p.desc; else if (!VARS[p.id].desc) VARS[p.id].desc = '';
+    });
+    const COLS0 = [['burgundy', 'بوردو', '#6b2335'], ['black', 'أسود', '#1b1b1b'], ['cream', 'كريمي', '#efe6d3']];
     const PID = (new URLSearchParams(location.search).get('p')) && VARS[new URLSearchParams(location.search).get('p')] ? new URLSearchParams(location.search).get('p') : 'malika';
     const V = VARS[PID];
-    const imgOf = (c) => 'assets/img/' + V.pre + '-' + c + '.jpg';
+    if (V.cat && V.cat.active === false) { location.replace('shop.html'); return; }
+    const COLS = V.cat ? V.cat.colors.map((c) => [c.key, c.name, c.hex]) : COLS0;
+    const imgOf = (c) => V.cat ? catImg(V.cat, c) : 'assets/img/' + V.pre + '-' + c + '.jpg';
+    if (V.cat) {
+      const sw = document.querySelector('.swatches');
+      if (sw) sw.innerHTML = COLS.map((c, i) => '<button class="swatch' + (i ? '' : ' on') + '" data-color="' + c[1] + '" data-img="' + c[0] + '" style="--c:' + c[2] + '" aria-label="' + c[1] + '"></button>').join('');
+      const cl0 = document.getElementById('color-label'); if (cl0 && COLS[0]) cl0.textContent = COLS[0][1];
+      const sb = document.querySelector('.size-btn');
+      if (sb && sb.parentNode && V.cat.sizes) sb.parentNode.innerHTML = V.cat.sizes.map((s) => '<button class="size-btn' + (s === 'M' || (V.cat.sizes.indexOf('M') < 0 && s === V.cat.sizes[0]) ? ' on' : '') + '" data-size="' + s + '">' + s + '</button>').join('');
+    }
     if (document.getElementById('gallery-main-img')) {
       document.title = V.name + ' — ست SITT';
       const h1 = document.querySelector('h1.display'); if (h1) h1.textContent = V.name;
       const pp = document.querySelector('.p-price'); if (pp) pp.textContent = V.price;
       const pd = document.querySelector('.p-desc'); if (pd) pd.textContent = V.desc;
       const cr = document.querySelector('.crumbs'); if (cr) cr.lastChild.textContent = ' / ' + V.name;
-      document.getElementById('gallery-main-img').src = imgOf('burgundy');
+      document.getElementById('gallery-main-img').src = imgOf(COLS[0][0]);
       const th = document.querySelector('.gallery-thumbs');
       if (th) th.innerHTML = COLS.map((c, i) => '<button class="' + (i ? '' : 'active') + '" data-src="' + imgOf(c[0]) + '"><img src="' + imgOf(c[0]) + '" alt="' + V.name + ' ' + c[1] + '"></button>').join('');
-      document.querySelectorAll('.swatch').forEach((s, i) => { s.dataset.img = COLS[i][0]; });
-      document.querySelectorAll('.related-grid .card').forEach((c) => { if (c.dataset.id === PID) c.style.display = 'none'; });
+      document.querySelectorAll('.swatch').forEach((s, i) => { if (COLS[i]) s.dataset.img = COLS[i][0]; });
+      document.querySelectorAll('.related-grid .card').forEach((c) => { if (c.dataset.id === PID || !catHas(c.dataset.id)) c.style.display = 'none'; });
     }
     const gallMain = document.getElementById('gallery-main-img');
     if (gallMain) {
@@ -215,7 +237,7 @@
         });
       });
     }
-    let size = 'M';
+    let size = (V.cat && V.cat.sizes && V.cat.sizes.indexOf('M') < 0) ? V.cat.sizes[0] : 'M';
     document.querySelectorAll('.size-btn').forEach((b) => {
       b.addEventListener('click', () => {
         document.querySelectorAll('.size-btn').forEach((x) => x.classList.remove('on'));
@@ -225,7 +247,7 @@
         if (lbl) lbl.textContent = size;
       });
     });
-    let color = 'بوردو';
+    let color = COLS[0][1];
     document.querySelectorAll('.swatch').forEach((s) => {
       s.addEventListener('click', () => {
         document.querySelectorAll('.swatch').forEach((x) => x.classList.remove('on'));
@@ -315,9 +337,27 @@
     }
   }
 
+  /* ---------- shop grid from the live catalog ---------- */
+  function shopCard(p) {
+    const cs = p.colors || [];
+    const dots = cs.map((c, i) => '<button type="button" class="dot' + (i ? '' : ' on') + '" data-c="' + c.key + '" aria-label="' + c.name + '" style="--c:' + c.hex + '"></button>').join('');
+    return '<article class="card" data-id="' + p.id + '"><a class="card-img" href="product.html?p=' + p.id + '"><img src="' + (cs[0] ? catImg(p, cs[0].key) : '') + '" alt="' + p.name + '">' + (p.isNew ? '<span class="badge-new">جديد</span>' : '') + '<button class="wish-heart" data-wish="' + p.id + '" aria-label="أضيفي للمفضلة">' + heartSVG + '</button></a><h3 class="card-name">' + p.name + '</h3><p class="card-price">' + money(p.price) + '</p><div class="dots">' + dots + '</div></article>';
+  }
+  function renderShopGrid() {
+    const g = document.querySelector('.grid-products');
+    if (!g || !CATP.length) return;
+    const page = document.body.dataset.page || '';
+    const list = CATP.filter((p) => p.active !== false && (page === 'tees' ? p.category === 'tees' : (page === 'shirts' ? p.category !== 'tees' : true)));
+    if (!list.length) return;
+    g.innerHTML = list.map(shopCard).join('');
+    bindHearts(g);
+    document.querySelectorAll('span').forEach((s) => { if (/^[٠-٩]+ قطع$/.test(s.textContent.trim())) s.textContent = arNum(list.length) + ' قطع'; });
+  }
+
   /* ---------- boot ---------- */
   document.addEventListener('DOMContentLoaded', () => {
     renderBagCount();
+    renderShopGrid();
     bindHearts();
     renderWishlist();
     renderCart();
