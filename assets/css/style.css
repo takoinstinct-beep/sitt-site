@@ -650,3 +650,9 @@ button.dot::after { content: ''; position: absolute; inset: -9px; }
   .gallery-thumbs button { flex: 1; max-width: 96px; }
   .gallery-thumbs img { width: 100%; height: 96px; }
 }
+
+/* sticky top strip + header, all pages */
+html,body{overflow-x:clip!important}
+.topbar{position:sticky;top:0;z-index:51;height:36px;line-height:18px;padding:9px 16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.site-header{top:36px}
+.summary{top:150px}
