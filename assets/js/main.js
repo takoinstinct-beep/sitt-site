@@ -18,6 +18,15 @@
     PRODUCTS[p.id] = Object.assign(PRODUCTS[p.id] || {}, { id: p.id, name: p.name, price: p.price, img: catImg(p, c0.key), color: c0.name, isNew: !!p.isNew, url: 'product.html?p=' + p.id });
   });
   if (PRODUCTS.malika && PRODUCTS.nil) { PRODUCTS.nil.name = PRODUCTS.malika.name; PRODUCTS.nil.price = PRODUCTS.malika.price; }
+  const BASEPRE = { malika: 'shirt', nil: 'shirt', oud: 'oud', shams: 'flare' };
+  const BASEKEY = { 'برجندي': 'burgundy', 'أسود': 'black', 'كريمي': 'cream' };
+  const cartImg = (item) => {
+    const p = PRODUCTS[item.id] || {};
+    const cp = CATP.find((x) => x.id === item.id);
+    if (cp && cp.colors) { const c = cp.colors.find((x) => x.name === item.color); if (c) { const u = catImg(cp, c.key); if (u) return u; } }
+    const k = BASEKEY[item.color], pre = BASEPRE[item.id];
+    return (k && pre) ? 'assets/img/' + pre + '-' + k + '.jpg' : p.img;
+  };
   const catHas = (id) => !CATP.length || CATP.some((p) => p.id === id);
 
   /* ---------- storage ---------- */
@@ -131,7 +140,7 @@
     wrap.innerHTML = cart.map((item, idx) => {
       const p = PRODUCTS[item.id];
       return `<div class="cart-item" data-idx="${idx}">
-        <a class="ci-img" href="${p.url}"><img src="${p.img}" alt="${p.name}"></a>
+        <a class="ci-img" href="${p.url}"><img src="${cartImg(item)}" alt="${p.name} ${item.color}"></a>
         <div>
           <h3 class="ci-name">${p.name}</h3>
           <p class="ci-meta">${item.color} / المقاس ${item.size}</p>
@@ -272,7 +281,7 @@
       addBtn.addEventListener('click', () => {
         const qty = parseInt(qtySpan.textContent.replace(/[٠-٩]/g, (d) => AR_DIGITS.indexOf(d)), 10) || 1;
         const c = getCart();
-        const ex = c.find((i) => i.id === PID && i.size === size);
+        const ex = c.find((i) => i.id === PID && i.size === size && i.color === color);
         if (ex) ex.qty += qty; else c.push({ id: PID, size, color, qty });
         setCart(c);
         toast('اتضافت للحقيبة');
