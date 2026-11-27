@@ -656,3 +656,16 @@ html,body{overflow-x:clip!important}
 .topbar{position:sticky;top:0;z-index:51;height:36px;line-height:18px;padding:9px 16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .site-header{top:36px}
 .summary{top:150px}
+
+/* cart fits mobile width */
+@media (max-width: 600px) {
+  .cart-item { grid-template-columns: 90px minmax(0,1fr); gap: 14px 16px; padding: 22px 0; align-items: start; }
+  .cart-item .ci-img img { width: 90px; height: 110px; }
+  .ci-name { font-size: 21px; overflow-wrap: anywhere; }
+  .ci-price { grid-column: 2; font-size: 17px; }
+  .ci-controls { flex-wrap: wrap; gap: 12px; }
+  .cart-layout, .cart-layout > * { min-width: 0; max-width: 100%; }
+  #cart-items, .summary { max-width: 100%; }
+  .cart-layout textarea, .cart-layout input { max-width: 100%; width: 100%; }
+  .summary { padding: 28px 20px; }
+}
