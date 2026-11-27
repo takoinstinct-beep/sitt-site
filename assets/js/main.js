@@ -234,6 +234,9 @@
           document.querySelectorAll('.gallery-thumbs button').forEach((x) => x.classList.remove('active'));
           b.classList.add('active');
           gallMain.src = b.dataset.src;
+          const sws = document.querySelectorAll('.swatch');
+          const bi = Array.prototype.indexOf.call(b.parentNode.children, b);
+          if (sws[bi]) sws[bi].click();
         });
       });
     }
